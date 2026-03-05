@@ -3372,8 +3372,6 @@ projects/YOUR_PROJECT/assets/
 
 ---
 
-**END OF README - ENGLISH VERSION**
-
 ---
 
 © 2026 Fabrice Renoux - AgroParisTech SILAT Master's Program - MIT License
