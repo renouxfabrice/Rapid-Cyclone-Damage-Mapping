@@ -1,7 +1,7 @@
 # Rapid-Cyclone-Damage-Mapping
-This GitHub repo hosts a rapid damage detection tool developed from academic work using Sentinel-1 radar. It provides first-pass maps of potential damage post-cyclone, primarily to support detailed photo-interpretation, guide field and drone missions, and must be validated with high-resolution imagery.
+Ce dépôt GitHub héberge un outil de détection rapide des dégâts développé dans le cadre d'un travail académique utilisant le radar Sentinel-1. Il fournit une cartographie préliminaire des dégâts potentiels post-cyclone, principalement pour orienter la photo-interprétation détaillée, guider les missions terrain et drone, et doit être validé par imagerie haute résolution.
 # Rapid Damage Detection Tool
-**Language / Langue :** [🇬🇧 English](README.md) | 🇫🇷 Français
+**Language / Langue :** [🇬🇧 English](README.en.md) | 🇫🇷 Français
 
 ---
 **Auteur :** Fabrice Renoux  
@@ -2755,3 +2755,5 @@ Dépôt GitHub : [https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping]
 ---
 
 © 2026 Fabrice Renoux - AgroParisTech SILAT - Licence MIT
+
+Made with dedication for disaster response and humanitarian action
