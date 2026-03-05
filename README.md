@@ -2492,7 +2492,7 @@ Pour proposer une nouvelle fonctionnalité, ouvrir une **Issue** avec le label `
 
 **Auteur :** Fabrice Renoux  
 **Institution :** AgroParisTech - Mastère Spécialisé SILAT  
-**Email :** [votre_email@example.com]  
+**Email :** [renoux.fabrice@hotmail.fr]  
 **LinkedIn :** [Profil LinkedIn]
 
 **Pour toute question :**
