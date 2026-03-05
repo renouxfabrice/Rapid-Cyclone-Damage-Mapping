@@ -2748,7 +2748,7 @@ Ouvrir une **Issue** sur GitHub : [https://github.com/renouxfabrice/Rapid-Cyclon
 
 **FIN DU README**
 
-Pour toute question : [votre_email@example.com]  
+Pour toute question : [renoux.fabrice@hotmail.fr]  
 Application en ligne : [https://rapiddamagedetection.projects.earthengine.app/view/rapid-damage-detection-app](https://rapiddamagedetection.projects.earthengine.app/view/rapid-damage-detection-app)  
 Dépôt GitHub : [https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping](https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping)
 
