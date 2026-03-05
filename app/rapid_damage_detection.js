@@ -2695,99 +2695,48 @@ var helpBtnTopRight = ui.Button({
     helpContent.add(ui.Label('───────────────────', {color: '#ccc', margin: '8px 0'}));
     helpContent.add(ui.Label('💡 Results appear in the right panel. Layers are grouped in the Layers panel. Two export options available: instant download (GeoJSON) or Google Drive (complete dataset).', {fontSize: '11px', color: '#666', fontStyle: 'italic'}));
     
-    // ============================================================
-    // 👇👇👇 INSÉRER LE NOUVEAU CODE ICI 👇👇👇
-    // ============================================================
-    
     // Séparateur
     helpContent.add(ui.Label('───────────────────', {color: '#ccc', margin: '12px 0'}));
     
-    // Titre de section
-    helpContent.add(ui.Label('📖 Additional Resources', {
-      fontWeight: 'bold', 
-      fontSize: '13px', 
-      margin: '8px 0 4px 0',
+    // Titre
+    helpContent.add(ui.Label('📚 Full Documentation', {
+      fontWeight: 'bold',
+      fontSize: '13px',
+      margin: '8px 0 8px 0',
       color: '#2196F3'
     }));
     
-    // Bouton GitHub Documentation (English)
-    var githubBtn = ui.Button({
-      label: '📚 Complete Documentation (English)',
+    // Lien cliquable English
+    var linkEN = ui.Label({
+      value: '🇬🇧 English: Click here to open README',
       style: {
-        stretch: 'horizontal',
-        margin: '4px 0',
-        backgroundColor: '#24292e',
-        color: 'black',
-        fontWeight: 'bold'
-      }
+        fontSize: '12px',
+        color: 'blue',
+        margin: '4px 0 4px 8px',
+        textDecoration: 'underline'
+      },
+      targetUrl: 'https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping#readme'
     });
+    helpContent.add(linkEN);
     
-    githubBtn.onClick(function() {
-      var url = 'https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping#readme';
-      print('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-      print('📚 FULL DOCUMENTATION (ENGLISH)');
-      print('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-      print('🔗 Link: ' + url);
-      print('');
-      print('Copy this URL and paste it into your browser.');
-      print('');
-      print('Documentation includes:');
-      print('  • Complete user guide');
-      print('  • Scientific methodology');
-      print('  • Building comparison tool');
-      print('  • Population estimation guide');
-      print('  • Troubleshooting & FAQ');
-      print('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    });
-    
-    helpContent.add(githubBtn);
-    
-    // Bouton GitHub Documentation (French)
-    var githubBtnFR = ui.Button({
-      label: '📚 Documentation complète (Français)',
+    // Lien cliquable French
+    var linkFR = ui.Label({
+      value: '🇫🇷 Français : Cliquez ici pour ouvrir le README',
       style: {
-        stretch: 'horizontal',
-        margin: '4px 0',
-        backgroundColor: '#24292e',
-        color: 'black'
-      }
+        fontSize: '12px',
+        color: 'blue',
+        margin: '4px 0 12px 8px',
+        textDecoration: 'underline'
+      },
+      targetUrl: 'https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping/blob/main/README.fr.md'
     });
-    
-    githubBtnFR.onClick(function() {
-      var url = 'https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping/blob/main/README.fr.md';
-      print('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-      print('📚 DOCUMENTATION COMPLÈTE (FRANÇAIS)');
-      print('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-      print('🔗 Lien: ' + url);
-      print('');
-      print('Copiez ce lien dans votre navigateur.');
-      print('');
-      print('La documentation inclut :');
-      print('  • Guide utilisateur complet');
-      print('  • Méthodologie scientifique');
-      print('  • Outil de comparaison du bâti');
-      print('  • Guide d\'estimation de population');
-      print('  • Dépannage & FAQ');
-      print('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    });
-    
-    helpContent.add(githubBtnFR);
-    
-    // Texte explicatif
-    helpContent.add(ui.Label(
-      'Click the buttons above to display the documentation links in the Console panel (bottom-right). Then click the link in the Console to open it in a new browser tab.',
-      {fontSize: '10px', color: '#666', margin: '4px 0 0 0', whiteSpace: 'pre-wrap'}
-    ));
-    
-    // ============================================================
-    // 👆👆👆 FIN DU NOUVEAU CODE 👆👆👆
-    // ============================================================
+    helpContent.add(linkFR);
     
     var closeBtn = ui.Button({
       label: 'Close',
       style: {
         stretch: 'horizontal', 
-        margin: '16px 0 0 0', 
+        margin: '8px 0 0 0', 
         backgroundColor: '#f44336', 
         color: '#000000',
         fontWeight: 'bold'
@@ -2801,10 +2750,8 @@ var helpBtnTopRight = ui.Button({
     helpPanel.add(helpContent);
     helpPanel.add(closeBtn);
     
-    
     Map.add(helpPanel);
   });
-
   
   var mainPanelCollapsed = false;
   var mainPanelToggleBtn = ui.Button({
