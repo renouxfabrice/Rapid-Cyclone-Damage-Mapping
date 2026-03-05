@@ -2415,7 +2415,7 @@ Si vous utilisez cet outil dans vos travaux de recherche, veuillez le citer comm
 ```
 Renoux, F. (2026). Rapid Damage Detection Tool: Post-disaster assessment using 
 Sentinel-1 SAR data on Google Earth Engine [Software]. 
-GitHub repository: https://github.com/[username]/rapid-damage-detection
+GitHub repository: https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping
 ```
 
 **Format BibTeX :**
@@ -2425,7 +2425,7 @@ GitHub repository: https://github.com/[username]/rapid-damage-detection
   title = {Rapid Damage Detection Tool: Post-disaster assessment using Sentinel-1 SAR data on Google Earth Engine},
   year = {2026},
   publisher = {GitHub},
-  url = {https://github.com/[username]/rapid-damage-detection},
+  url = {https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping},
   note = {Master's thesis project, AgroParisTech SILAT}
 }
 ```
@@ -2520,7 +2520,7 @@ Ce projet a été réalisé dans le cadre du **Mastère Spécialisé SILAT** (Sy
 
 # 6. Structure du Dépôt GitHub
 ```
-rapid-damage-detection/
+Rapid-Cyclone-Damage-Mapping/
 │
 ├── README.md                          # Ce fichier (documentation complète)
 │
@@ -2584,7 +2584,7 @@ rapid-damage-detection/
 
 ### 7.2.1 Cloner le dépôt
 ```bash
-git clone https://github.com/[username]/rapid-damage-detection.git
+git clone https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping.git
 cd rapid-damage-detection
 ```
 
@@ -2712,7 +2712,7 @@ Actuellement : GeoJSON (client-side) et Shapefile (Google Drive).
 
 **Q9 : Comment signaler un bug ou proposer une amélioration ?**
 
-Ouvrir une **Issue** sur GitHub : [https://github.com/[username]/rapid-damage-detection/issues](https://github.com/[username]/rapid-damage-detection/issues)
+Ouvrir une **Issue** sur GitHub : [https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping/issues](https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping/issues)
 
 ---
 
@@ -2750,7 +2750,7 @@ Ouvrir une **Issue** sur GitHub : [https://github.com/[username]/rapid-damage-de
 
 Pour toute question : [votre_email@example.com]  
 Application en ligne : [https://rapiddamagedetection.projects.earthengine.app/view/rapid-damage-detection-app](https://rapiddamagedetection.projects.earthengine.app/view/rapid-damage-detection-app)  
-Dépôt GitHub : [https://github.com/[username]/rapid-damage-detection](https://github.com/[username]/rapid-damage-detection)
+Dépôt GitHub : [https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping](https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping)
 
 ---
 
