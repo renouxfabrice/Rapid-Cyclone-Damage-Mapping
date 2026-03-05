@@ -2626,29 +2626,15 @@ with open('app/rapid_damage_detection.js', 'r') as f:
 # 8. Feuille de Route (Roadmap)
 
 ## Version 1.0 (actuelle)
-- ✅ Module Damage Detection (PWTT)
-- ✅ Module Flood Detection (s1flood)
-- ✅ Module Landslide Detection (heatmaps + susceptibilité)
-- ✅ Module Weather Statistics
-- ✅ Export client-side (GeoJSON)
-- ✅ Export Google Drive (Shapefile + GeoTIFF)
-- ✅ Time Series (flood uniquement)
-- ✅ Script QGIS de comparaison bâti
-- ✅ Modèle QGIS d'estimation de population
-
-## Version 1.1 (planifiée - T2 2026)
-- ⬜ Fusion optique (Sentinel-2) pour validation
-- ⬜ Détection de dégâts progressifs (suivi multi-temporel)
-- ⬜ Export PDF automatisé (cartes + statistiques)
-- ⬜ Interface multilingue (EN, FR, ES)
-- ⬜ Amélioration de l'interface utilisateur
-
-## Version 2.0 (planifiée - T4 2026)
-- ⬜ Intégration de modèles de machine learning
-- ⬜ Support de données SAR haute résolution (ICEYE, Capella)
-- ⬜ Application mobile (collecte terrain)
-- ⬜ API REST pour intégration dans d'autres systèmes
-- ⬜ Dashboard temps réel (monitoring continu)
+- Module Damage Detection (PWTT)
+- Module Flood Detection (s1flood)
+- Module Landslide Detection (heatmaps + susceptibilité)
+- Module Weather Statistics
+- Export client-side (GeoJSON)
+- Export Google Drive (Shapefile + GeoTIFF)
+- Time Series (flood uniquement)
+- Script QGIS de comparaison bâti
+- Modèle QGIS d'estimation de population
 
 ---
 
