@@ -477,7 +477,7 @@ The VV backscatter time series (dB) shows a stable regime before Cyclone Melissa
 
 ### 2.2.2 Processing pipeline — PWTT method
 
-![Processing pipeline diagram — Structural Damage Detection (PWTT)](docs/screenshots/damage_detection_PWTT_EN.png)
+![Processing pipeline diagram — Structural Damage Detection (PWTT)](docs/screenshots/damage_detection_EN.png)
 
 Damage detection is based on the **Pixel-Wise T-Test (PWTT)** method developed by Ballinger (2024). The complete pipeline is described in the diagram above and detailed below.
 
