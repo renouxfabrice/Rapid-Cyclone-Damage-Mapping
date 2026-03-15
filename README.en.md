@@ -1,72 +1,83 @@
 # Rapid-Cyclone-Damage-Mapping
-This GitHub repo hosts a rapid damage detection tool developed from academic work using Sentinel-1 radar. It provides first-pass maps of potential damage post-cyclone, primarily to support detailed photo-interpretation, guide field and drone missions, and must be validated with high-resolution imagery.
+
+This GitHub repository hosts a rapid damage detection tool developed as part of an academic research project using Sentinel-1 radar data. It provides a preliminary mapping of potential post-cyclone damage, primarily to guide detailed photo-interpretation, direct field and drone missions, and must be validated with high-resolution imagery.
+
 # Rapid Damage Detection Tool
 
 **Language / Langue :** 🇬🇧 English | [🇫🇷 Français](README.md)
 
 ---
 
-**Author:** Fabrice Renoux  
-**Institution:** AgroParisTech - SILAT Master's Program (Systèmes d'Informations Localisées pour l'Aménagement des Territoires)  
-**Date:** March 2026  
+**Author:** Fabrice Renoux
+**Institution:** AgroParisTech - Mastère Spécialisé SILAT (Localised Information Systems for Territorial Planning)
+**Date:** March 2026
 
 ---
 
 ## Disclaimer
 
-This project is an **academic experimental work** developed within a university framework. It should **not be considered as a certified operational tool** for emergency response.
+This project is an **experimental academic work**. It must not under any circumstances be considered a certified operational tool for emergency response.
 
 **Important limitations:**
 - Results are provided for indicative purposes only and require systematic validation by experts
 - The tool does not replace photo-interpretation on high-resolution imagery
-- Should not be used as the sole basis for critical operational decisions
-- Must not serve as the only source for life-saving interventions without field verification
+- Must not serve as the sole basis for critical operational decisions
 - Intended for research and academic experimentation
-- The author disclaims all responsibility regarding the use of results
+- The author declines all responsibility for the use of results
 
-**Recommended use:** Decision support tool to guide and prioritize detailed analyses conducted by qualified professionals.
+**Recommended use:** Decision-support tool to orient and prioritise detailed analyses carried out by qualified professionals.
 
 ---
 
 ## Context and Objectives
 
-### Problem Statement
+### The problem
 
-In the hours following a natural disaster (tropical cyclone, earthquake), rapid damage assessment faces several constraints:
+In the first hours following a natural disaster (tropical cyclone, earthquake), rapid damage assessment faces several constraints:
 
-1. **Acquisition delay:** High-resolution satellite optical imagery may require several days before becoming available
-2. **Weather conditions:** Post-event cloud cover limits optical imagery exploitation
-3. **Data volume:** Manual processing via photo-interpretation is time-consuming and requires specialized expertise
-4. **Prioritization:** Difficulty in rapidly identifying areas requiring urgent intervention
+1. **Acquisition delay**: High-resolution optical satellite imagery may take several days to become available
+2. **Weather conditions**: Post-event cloud cover limits the use of optical imagery
+3. **Data volume**: Manual photo-interpretation is time-consuming and requires specialised expertise
+4. **Prioritisation**: Difficulty in rapidly identifying areas requiring urgent intervention
 
-### Proposed Solution
+### The value of Sentinel-1 over optical imagery
 
-This tool exploits **Sentinel-1 radar data** (C-band, all-weather acquisition) to:
+The case of Cyclone Idai (Beira, Mozambique, March 2019) illustrates this constraint clearly. As documented by Barra et al. (2020), the last cloud-free optical image of Beira was from 2 March — 12 days before the cyclone. The first clear optical image after the impact was only available on 26 March, and the full optical-based assessment was not published until 4 April, three weeks after impact. Throughout this period, Sentinel-1 was providing usable data within 12 hours of impact, with updates possible every 6 days.
 
-1. Generate an initial indicative mapping of potentially affected areas
-2. Prioritize sectors requiring detailed photo-interpretation
-3. Target ground reconnaissance and drone missions
+The case of Whitehouse, Jamaica (Cyclone Melissa, 28–29 October 2025) confirms this on a recent example. The table below summarises the key acquisition and publication dates for assessment products:
+
+![Satellite and aerial acquisition timeline — Whitehouse, Jamaica, October–November 2025](docs/screenshots/1773509531511_image.png)
+
+Sentinel-1 data was available as early as 29 October 2025 (day of impact), enabling an immediate preliminary analysis with this tool. The UNOSAT assessment was not published until 5 November — 7 days later, by which time 3 additional Sentinel-1 acquisitions had already been collected. The 50 cm optical satellite imagery (Maxar/Copernicus EMS) was not accessible until 18 November, 20 days after impact, by which point 5 Sentinel-1 images already covered the area.
+
+### Proposed solution
+
+This tool uses **Sentinel-1** radar data (C-band, all-weather acquisition) to:
+
+1. Generate a first indicative map of potentially affected areas from D+1
+2. Prioritise sectors requiring detailed photo-interpretation
+3. Target field reconnaissance and drone missions
 4. Accelerate the rapid assessment process for emergency teams
 
 **Main applications:**
-- **Post-tropical cyclone:** structural damage, flooding, landslides
-- **Post-earthquake:** structural change detection on buildings (damage detection module)
+- **Post-tropical cyclone**: structural damage, flooding, landslides
+- **Post-earthquake**: detection of structural changes in buildings
 
-**Principle:** The tool does not produce a definitive assessment, but rather a **framework of potential damage** that must be systematically validated through visual analysis of high-resolution imagery and ground verification.
+**Principle:** The tool does not produce a definitive assessment, but a **preliminary damage framework** that must be systematically validated by visual analysis of high-resolution imagery and field verification.
 
 ---
 
 ## Application Access
 
-**Google Earth Engine Application URL:**  
+**Google Earth Engine application URL:**
 [https://rapiddamagedetection.projects.earthengine.app/view/rapid-damage-detection-app](https://rapiddamagedetection.projects.earthengine.app/view/rapid-damage-detection-app)
 
-**Prerequisites:**
+**Requirements:**
 - Modern web browser (Chrome, Firefox, Edge)
 - Google account (free)
 - Stable internet connection
 
-**No installation required** - The application runs entirely online via Google Earth Engine Apps.
+**No installation required** — The application runs entirely online via Google Earth Engine Apps.
 
 ---
 
@@ -77,9 +88,20 @@ This tool exploits **Sentinel-1 radar data** (C-band, all-weather acquisition) t
    - [Step 1: Using the GEE application](#step-1)
    - [Step 2: Affected population estimation (post-processing)](#step-2)
 2. [Scientific Methodology](#scientific-methodology)
-3. [Data Sources](#data-sources)
-4. [Bibliography](#bibliography)
-5. [License and Contributions](#license)
+3. [Results Interpretation and Usage Guide](#interpretation)
+   - [What the tool produces](#31-what-the-tool-produces--and-what-it-does-not)
+   - [Recommended parameters by time window](#32-recommended-parameters-by-post-time-window)
+   - [Guide by use case](#33-guide-by-use-case)
+   - [Confidence levels](#34-interpreting-confidence-levels)
+   - [Method comparison](#35-detection-method-comparison)
+   - [PRE period selection](#36-pre-period-selection--recommendations)
+   - [PRE period comparison](#37-effect-of-pre-period--2024-vs-2025-comparison)
+   - [Tropical context limitations](#38-limitations-specific-to-the-caribbeantropical-context)
+   - [T-threshold guide](#39-t-threshold--adjustment-guide)
+   - [Interpretation FAQ](#310-frequently-asked-questions-on-interpretation)
+4. [Data Sources](#data-sources)
+5. [Bibliography](#bibliography)
+6. [Licence and Contributions](#licence)
 
 ---
 
@@ -87,139 +109,72 @@ This tool exploits **Sentinel-1 radar data** (C-band, all-weather acquisition) t
 # 1. User Guide
 
 <a name="step-0"></a>
-## Step 0: Building Data Quality Assessment (Optional)
+## Step 0: Building Data Quality Assessment (optional)
 
 ### Context
 
-Google Earth Engine offers several global building databases with variable quality depending on regions:
+Google Earth Engine provides several global building datasets whose quality varies by region:
 - Google Open Buildings v3
 - Microsoft Building Footprints (via VIDA Combined)
 - Custom assets
 
-A Python QGIS script allows comparing these sources with a local reference layer to identify the most suitable one.
+A standalone Python script (`building_quality_comparison.py`) executable from the QGIS script editor allows comparing these sources against a local reference layer to identify the most suitable one for your study area.
 
-### Prerequisites
+![Building comparison script interface — QGIS](docs/screenshots/Building_Quality_Comparison_fenetre_eng.png)
 
-**Software:**
-- QGIS 3.x (stable version recommended)
+### Installation and launch
 
-**Required data:**
-- **Reference layer:** High-quality building data (cadastre, field survey, validated OpenStreetMap)
-  - Format: Shapefile (.shp) or GeoPackage (.gpkg)
-  - Geometry: Polygons
-- **Layers to evaluate** (1 to 5 maximum): Extracts from databases to compare
-  - Formats: Shapefile (.shp) or GeoPackage (.gpkg)
-  - Geometry: Polygons
+No plugin installation required. The script is a standalone Python file.
 
-### Installation
+1. Download `building_quality_comparison.py` from `tools/`
+2. Open QGIS (version 3.x)
+3. Menu: **Plugins** > **Python Script Editor**
+4. Open the `.py` file via the folder icon
+5. Click **Run** (green triangle): the interface opens immediately
 
-1. Download the script `building_quality_comparison.py` from the repository:
-```
-tools/building_quality_comparison.py
-```
+### Step-by-step usage
 
-2. Open QGIS
-3. Menu: **Plugins** > **Python Console**
-4. Click the **Open script** icon
-5. Select `building_quality_comparison.py`
+**A — Reference Layer**
+Select the layer serving as ground truth (cadastre, field survey, high-resolution digitisation). Two modes: `From project` or `From file`. Building count and CRS are displayed automatically.
 
-### Execution
+**B — Study Layers (layers to evaluate)**
+Add between 1 and 5 layers via the `Add layer` button. For each layer, choose the source and set a display name (alias) used in reports.
 
-1. Click **Run script** (play icon)
-2. Follow the interactive dialogs:
+**C — Area of Interest (optional mask)**
+Check the box to restrict the analysis to a specific area. If left empty, all visible buildings are analysed.
 
-**Dialog 1: Reference layer**
-- Select the reference vector file
+**D — Projection / CRS**
+The appropriate UTM CRS is automatically detected from the reference layer extent. A red alert appears if a non-metric CRS is selected — distance calculations would be inaccurate.
 
-**Dialog 2: Layers to evaluate**
-- Select 1 to 5 vector files (Ctrl+click for multi-selection)
+**E — Matching Parameters**
+The automatic sensitivity analysis (recommended) tests 16 parameter combinations (distances × Jaccard) and retains the one maximising the F1-score. Manual mode allows direct entry of maximum centroid distance and minimum Jaccard index.
 
-**Dialog 3: Output folder**
-- Define the results save directory
+**F — Score Weights and Output**
+Adjust the global score weights if needed. Set an output folder for text reports. Click `Run analysis`.
 
-**Dialog 4: Matching parameters**
+### Results in QGIS
 
-| Parameter | Description | Recommended value |
-|-----------|-------------|-------------------|
-| Max distance (m) | Maximum distance between centroids to consider a match | 10 m (dense urban) to 50 m (rural) |
-| Minimum overlap (%) | Surface overlap threshold | 50% |
-| Multiple matches | 0 = strict 1:1 mode, 1 = 1:n mode | 0 |
+Three layers are created per evaluated layer: matched buildings (green), undetected buildings (violet), excess buildings (red).
 
-### Results Interpretation
+![Comparison results — QGIS with summary report](docs/screenshots/Building_Quality_Comparison_Summary-result.png)
 
-The script generates:
+### Key indicators
 
-1. **Summary text file:** `comparison_summary_YYYYMMDD_HHMM.txt`
-2. **QGIS layers** (added to project):
+| Indicator | Interpretation | Excellent | Acceptable | Poor |
+|-----------|----------------|-----------|------------|------|
+| Completeness | Share of REF buildings detected | > 90% | 70–90% | < 70% |
+| Commission error | Share of buildings with no REF equivalent | < 5% | 5–15% | > 15% |
+| F1-score | Synthetic indicator (ISO 19157) | > 0.80 | 0.60–0.80 | < 0.60 |
+| Jaccard index | Geometric overlap (0–1) | > 0.80 | 0.60–0.80 | < 0.60 |
 
-| Layer | Symbology | Description |
-|--------|-----------|-------------|
-| REF_buildings | Orange outline | Reference buildings |
-| REF_NON_DETECTES_[name] | Purple outline | Undetected reference buildings |
-| BATI_ETUDE_APPARIES_[name] | Green outline | Correctly matched buildings |
-| BATI_ETUDE_NON_APPARIES_[name] | Red outline | Excess buildings (over-completeness) |
-| LIAISONS_[name] | Blue dashed lines with arrows | Centroid connections |
+The global score is a weighted sum: mean Jaccard (42%), median distance score (35%), inverse commission (18%), stability bonus (5%). Weights are normalised automatically.
 
-#### Key Indicators
+### Decision for the GEE application
 
-The text file contains for each evaluated layer:
-
-**Aggregate statistics**
-- Number of buildings (study vs reference)
-- Number of matched buildings
-- Number of undetected buildings
-- Number of excess buildings
-
-**Quality indicators**
-
-| Indicator | Formula | Interpretation | Excellent | Acceptable | Poor |
-|-----------|---------|----------------|-----------|------------|------|
-| Completeness | (Detected REF buildings) / (Total REF buildings) | Ability to detect all existing buildings | > 90% | 70-90% | < 70% |
-| Over-completeness | (Unmatched STUDY buildings) / (Total STUDY buildings) | Proportion of erroneous detections | < 5% | 5-15% | > 15% |
-| Overlap index | (Total intersection area) / (Matched REF area) | Surface quality of overlap | > 90% | 80-90% | < 80% |
-
-**Positional analysis**
-- Mean and median distance between centroids
-- MAD (Median Absolute Deviation): robust dispersion indicator
-
-**Morphological analysis**
-- Median area difference (m²)
-- MAD of area difference
-- Percentage of significant differences (MAD test with 1.96 σ threshold)
-
-#### Comparative Summary
-
-If multiple layers are evaluated, the file contains:
-
-**Summary table**
-```
-Layer                          Complete.  Over-compl.  Overlap   Dist.med.
----------------------------------------------------------------------------
-google_buildings.shp             88.3%       7.2%      91.5%      2.87m
-microsoft_buildings.shp          82.1%       4.1%      89.3%      2.12m
-osm_buildings.shp                76.5%      12.8%      85.7%      4.56m
-```
-
-**Global ranking**
-
-Composite score calculated by weighted average:
-- Completeness: 30%
-- Inverted over-completeness: 25%
-- Overlap: 25%
-- Inverted positional accuracy: 20%
-
-**Recommendation**
-
-The script identifies the optimal layer and lists:
-- Strengths
-- Attention points (criteria below thresholds)
-
-### Decision for GEE Application
-
-Use the layer with the best global score:
+Use the layer with the highest global score:
 - If Google Open Buildings is optimal: select this option in the application
 - If Microsoft Buildings is optimal: select "Google-Microsoft (VIDA Combined)"
-- If no public layer is satisfactory (score < 70): consider using a custom asset
+- If no public layer is satisfactory (score < 0.60): use a custom asset
 
 ---
 
@@ -231,372 +186,189 @@ Use the layer with the best global score:
 The application consists of three main panels:
 
 1. **Control panel** (left): Analysis parameter configuration
-2. **Map panel** (center): Spatial visualization and AOI drawing
+2. **Map panel** (centre): Spatial visualisation and AOI drawing
 3. **Results panel** (right): Statistics display and download links
 
-### Parameter Configuration
+### Interface overview
+
+The image below shows an annotated view of the control panel and its key parameters:
+
+![Annotated control panel — Rapid Damage Detection](docs/screenshots/Dashboard_EN.png)
+
+![Full interface — damage results on satellite basemap](docs/screenshots/apss_presnetation_resultat_mapsat.png)
+
+### Parameter configuration
 
 #### Quick Start
 
-Dropdown menu offering pre-recorded configurations:
-- **New (blank):** Empty configuration
-- **Demo: Jamaica Whitehouse (Oct 2025):** Functional example on Hurricane Melissa
+Dropdown menu offering pre-saved configurations:
+- **New (blank)**: Empty configuration
+- **Demo: Jamaica Whitehouse (Oct 2025)**: Working example on Cyclone Melissa
 
-To test the application, select the demo and click directly on "Run Analysis".
+To test the application, select the demo and click "Run Analysis" directly.
 
 #### 1. Zone Name
 
-Study area identifier used for export file naming.
+Study area identifier used to name export files.
 
 **Recommended format:** `Country_Event_Year`
 
-**Examples:**
-- `Haiti_Matthew_2016`
-- `Mozambique_Idai_2019`
-- `Philippines_Haiyan_2013`
+Examples: `Haiti_Matthew_2016`, `Mozambique_Idai_2019`, `Philippines_Haiyan_2013`
 
-#### 2. Dates (YYYY-MM-DD format)
+#### 2. Dates (format YYYY-MM-DD)
 
 **Pre-date (reference date)**
-- Date prior to the event, representing normal state
-- Choose a period without major events
-- Recommendation: 1 to 3 months before the event
+- Date prior to the event, representing normal conditions
+- Choose a period without major events or extreme weather conditions
+- Recommendation: choose a date sufficiently distant from the event so that PRE images are not contaminated by precursor effects (seasonal flooding, very wet vegetation). The `Weather data` module helps identify optimal dry periods before setting this date.
 
 **Event date**
-- Disaster date
-- Can be the impact date or the following day
+- Date of the disaster or the following day
 
 **Constraint:** Pre-date < Event date
 
+> **Important recommendation:** It is preferable to choose a Pre-date well before the event (1 to 6 months prior) to avoid PRE images already capturing event-related phenomena (pre-flooded areas, wind-stressed vegetation). For Whitehouse, Jamaica, the parameters used were `PRE_DATE = '2024-11-20'`, `EVENT_DATE = '2025-10-29'`, `PRE_INTERVAL = 180 days` (28 PRE images).
+
 #### 3. Intervals (days)
 
-**Pre (before interval)**
+**Pre (pre-event interval)**
 - Time window to search for Sentinel-1 images before the reference date
 - Range: 30 to 365 days
-- **Recommendation: 180 days**
-- The longer the interval, the higher the probability of finding images
+- **Recommendation: 180 days** — the wider the interval, the higher the probability of finding images during a dry period
 
-**Post (after interval)**
+**Post (post-event interval)**
 - Time window to search for Sentinel-1 images after the event date
 - Range: 1 to 28 days
 - **Recommendation: 6 days** (corresponds to Sentinel-1 revisit period)
 - If no image is found, the application suggests increasing this interval
 
-**Technical note:** Sentinel-1 has an average revisit period of ~6 days. A post-event interval too short (< 6 days) may not capture any acquisition.
+> **Note:** Sentinel-1 has a revisit period of ~6 days. A post-event interval shorter than 6 days may not capture any acquisition. Activating the `Time series (flood)` module allows visualising the number and dates of available Sentinel-1 acquisitions over a period, helping to calibrate the optimal POST interval.
 
 #### 4. Options (analysis modules)
 
 **Weather data**
-- Cumulative precipitation (CHIRPS Daily)
-- Mean and maximum wind (GLDAS)
-- Mean and minimum atmospheric pressure (GLDAS)
-- Temporal evolution graphs
-- **Recommendation:** Always activate to contextualize the event
+Cumulative precipitation (CHIRPS Daily), mean and maximum wind (GLDAS), atmospheric pressure (GLDAS). Recommendation: always activate to contextualise the event and identify optimal dry periods for choosing the Pre-date.
+
+![Daily precipitation chart — Whitehouse, Sept.–Oct. 2025](docs/screenshots/graph_apps_Pluviometreie_serie_temporelle.png)
 
 **Damage detection**
-- Building and road change detection
-- Based on pixel-wise t-test (PWTT) applied to Sentinel-1 data
-- **Applications:** Cyclones, earthquakes, conflicts
-- Generates damage classes (Moderate, High, Very High)
+Detection of changes on buildings and roads. Based on pixel-wise t-test (PWTT). Applications: cyclones, earthquakes, conflicts. Generates damage classes (Moderate, High, Very High).
+
+![Damage results — OSM basemap with density bubbles and logistic hub](docs/screenshots/apps_presentation_resultat_mapsosm.png)
+
+![Layers panel — damage results](docs/screenshots/apps_affichage_des_couches.png)
+
+![Summary chart — damaged buildings and roads](docs/screenshots/graph_repartition_etat_batis_et_route.png)
 
 **Flood detection**
-- Flooded area mapping
-- Based on s1flood algorithm (DeVries et al., 2020)
-- **Applications:** Cyclones, floods, extreme rainfall events
-- Identifies flooded buildings and roads
+Mapping of flooded areas extent. Based on the s1flood algorithm (DeVries et al., 2020). Identifies flooded buildings and roads.
+
+![Flood map — Whitehouse, Jamaica](docs/screenshots/resultat_carte_flood_2.png)
+
+![Flooded land cover breakdown](docs/screenshots/graph_flood_land_cover.png)
 
 **Landslide detection**
-- Landslide susceptibility mapping
-- Combination of t-test and environmental factors (slope, curvature, precipitation, soil type)
-- **Applications:** Earthquakes, heavy rainfall in mountainous areas
-- Generates exposure zones (runout zones)
+Landslide susceptibility mapping. Combination of t-test and environmental factors (slope, curvature, precipitation, soil type). Generates runout exposure zones.
 
 **Time series (flood only)**
-- Temporal evolution analysis of flooding
-- Requires "Flood detection" activation
-- Generates a progression/recession graph
-- Allows specifying a custom analysis period
+Analysis of flood temporal evolution. Generates a chart showing progression/recession by date and orbit (ascending/descending). This chart also allows verifying the number of Sentinel-1 images available over a period, helping calibrate the POST interval before launching the analysis.
 
-**Recommendation:** For initial testing, activate Weather + one module (Damage OR Flood) to reduce calculation time.
+![Flooded area evolution by Sentinel-1 acquisition date and orbit](docs/screenshots/graph_fllod_area_serie_temporelle.png)
+
+> This chart also shows the number of Sentinel-1 acquisitions available over the period, which helps calibrate the optimal POST interval before launching the main analysis.
+
+**Recommendation:** For a first test, activate Weather + a single module (Damage or Flood) to reduce computation time.
 
 #### 5. AOI (Area of Interest)
 
-Three methods for defining the study area:
+**Method 1: Draw on map** — Draw directly on the map. Recommended maximum area: ~50 km².
 
-**Method 1: Draw on map**
-- Use integrated drawing tools (rectangle or polygon)
-- Draw directly on the map
-- **Limitation:** Maximum recommended area ~50 km² (for calculation times < 15 min)
+**Method 2: Enter WKT/GeoJSON** — Paste WKT or GeoJSON text from QGIS (plugin "Get WKT": select polygon > right-click > Get WKT).
 
-**Method 2: Enter WKT/GeoJSON**
-- Paste WKT or GeoJSON text
-- Useful if the area was defined in external GIS (QGIS)
-- **QGIS procedure:**
-  1. Install the "Get WKT" plugin
-  2. Select the polygon
-  3. Right-click > Get WKT
-  4. Copy-paste into application field
-
-**Method 3: Custom asset**
-- Use a pre-uploaded Google Earth Engine asset
-- Format: `projects/YOUR_PROJECT/assets/YOUR_AOI`
-- Asset must be a FeatureCollection
-
-**Recommendation:** Areas of 10-50 km² for balance between spatial resolution and calculation time.
+**Method 3: Custom asset** — Use a pre-uploaded GEE asset. Format: `projects/YOUR_PROJECT/assets/YOUR_AOI` (FeatureCollection).
 
 #### 6. Buildings (building data source)
 
-Three available options:
+| Option | Description | Coverage |
+|--------|-------------|----------|
+| Google Open Buildings v3 | Google database | Worldwide (excl. Europe/USA) |
+| Google-Microsoft (VIDA Combined) | Merged database | Worldwide |
+| Custom asset | Personal asset uploaded to GEE | Specific area |
 
-| Option | Description | Coverage | Typical resolution |
-|--------|-------------|----------|-------------------|
-| Google Open Buildings v3 | Google database | Global (except Europe/USA) | Building level |
-| Google-Microsoft (VIDA Combined) | Fusion of both databases | Global | Building level |
-| Custom asset | Personal asset uploaded to GEE | Specific area | Variable |
-
-**Recommended selection:**
-- If Step 0 was performed: use the layer with the best score
-- Otherwise: favor "Google-Microsoft (VIDA Combined)" for most regions
-
-**Format for Custom asset:**
-- Type: FeatureCollection
-- Geometry: Polygons
-- Path: `projects/YOUR_PROJECT/assets/YOUR_BUILDINGS`
+Recommended selection: use the layer with the best score from Step 0. Otherwise, prefer "Google-Microsoft (VIDA Combined)".
 
 #### 7. Roads (road data source)
 
-Two options:
+| Option | Description |
+|--------|-------------|
+| GRIP4 (auto) | Global Roads Inventory Project, automatic region selection |
+| Custom asset | Custom road network (FeatureCollection, LineString) |
 
-| Option | Description | Coverage |
-|--------|-------------|----------|
-| GRIP4 (auto) | Global Roads Inventory Project | Global (automatic region detection) |
-| Custom asset | Custom road network | Specific area |
+#### 8. DEM Source
 
-**GRIP4** automatically selects the appropriate region (North America, Europe, Africa, etc.) based on AOI location.
-
-**Format for Custom asset:**
-- Type: FeatureCollection
-- Geometry: LineString
-- Path: `projects/YOUR_PROJECT/assets/YOUR_ROADS`
-
-#### 8. DEM Source (Digital Elevation Model)
-
-Activated only if "Flood detection" or "Landslide detection" is checked.
-
-| Option | Resolution | Coverage | Recommended use |
-|--------|-----------|----------|-----------------|
-| NASADEM | 30m | Global (60°N-56°S) | Default (recommended) |
-| SRTM | 30m | Global (60°N-56°S) | Alternative |
-| ALOS | 30m | Global | Tropical areas |
-| ASTER | 30m | Global | Less accurate |
-| Custom | Variable | Specific | Local higher-quality data |
-
-**Recommendation:** Keep NASADEM by default unless you have a local DEM of better quality.
+| Option | Resolution | Recommended use |
+|--------|-----------|-----------------|
+| NASADEM | 30m | Default (recommended) |
+| SRTM | 30m | Alternative |
+| ALOS | 30m | Tropical areas |
+| ASTER | 30m | Less precise |
+| Custom | Variable | Higher-quality local DEM |
 
 #### 9. Settings (advanced parameters)
 
-**T-threshold (damage detection threshold)**
-- Range: 2.0 to 5.0
-- Default: 2.4
-- Principle: t-statistic threshold below which a change is considered non-significant
-- Increase = fewer false positives, risk of missing slight damage
+**T-threshold** (damage detection threshold) — Range: 2.0 to 5.0 | Default: **2.4**
+- Increase = fewer false positives, risk of missing minor damage
 - Decrease = more sensitive detection, increased false positive risk
 
-**Slope (minimum slope for landslides)**
-- Range: 5° to 30°
-- Default: 10°
-- Slope threshold below which landslide risk is considered negligible
+**Slope** — Minimum slope for landslide. Default: 10°
 
-**Curvature (minimum curvature)**
-- Range: 0.01 to 0.2
-- Default: 0.05
-- Terrain curvature (concavity/convexity) used to identify potential instability zones
+**Curvature** — Minimum curvature. Default: 0.05
 
-**Recommendation:** Keep default values for initial analysis. Adjust based on results and terrain knowledge.
-
-#### 10. Time Series
-
-Visible only if "Flood detection" is activated.
-
-**From / To:** Define analysis period
-- Application searches all available Sentinel-1 images in this interval
-- Generates a graph showing flooded area evolution
-- Allows identifying flood peak and recession dynamics
-
-**Note:** Calculation time increases proportionally with the number of analyzed dates.
-
-### Launching Analysis
+### Running the analysis
 
 1. Verify all mandatory parameters are configured
-2. Click **Run Analysis** button
-
-**Progress bar:**
-```
-████████████░░░░░░░░ 60% - Detecting flood extent...
-```
+2. Click **Run Analysis**
 
 **Estimated duration:**
-- Small area (< 10 km²): 1-3 minutes
-- Medium area (10-30 km²): 3-8 minutes
-- Large area (30-50 km²): 8-15 minutes
+- Small area (< 10 km²): 1–3 minutes
+- Medium area (10–30 km²): 3–8 minutes
+- Large area (30–50 km²): 8–15 minutes
 
-**Important:** Do not close browser window during calculation!
+### Interpreting map results
 
-### Results Interpretation
+#### Building damage levels
 
-#### Results Panel (right)
+| Level | Condition | Meaning |
+|-------|-----------|---------|
+| **Moderate** | T_threshold ≤ T < T_threshold + 1 | Moderate change, validation recommended |
+| **High** | T_threshold + 1 ≤ T < T_threshold + 2 | High change, strong probability of damage |
+| **Very High** | T ≥ T_threshold + 2 | Very high change, near-certain damage |
 
-Once analysis is complete, the right panel displays:
+![Density bubbles and logistic hub — spatial damage concentration](docs/screenshots/bubble_et_hub_barycentre.png)
 
-**General information**
-- AOI area (km²)
-- Population (WorldPop)
-- Infrastructure (ports, airports, health facilities)
+### Exporting results
 
-**Weather conditions**
-- Cumulative precipitation graphs
-- Wind and atmospheric pressure graphs
-- Summary statistics:
-  - Cumulative rainfall (mm)
-  - Max daily rainfall (mm)
-  - Max wind gust (km/h)
-  - Min pressure (hPa)
+#### Method 1: Instant download (client-side)
 
-**Damage statistics (if activated)**
+GeoJSON format — compatible with QGIS, ArcGIS. Maximum 5000 features per layer.
 
-*Buildings*
-- Number of damaged vs intact buildings
-- Percentage of damaged buildings
-- Distribution by severity level:
-  - Very High (T ≥ T_threshold + 2)
-  - High (T_threshold + 1 ≤ T < T_threshold + 2)
-  - Moderate (T_threshold ≤ T < T_threshold + 1)
+Available files: `Analysis_Summary.csv`, `Buildings_Damage.geojson`, `Roads_Damage.geojson`, `Flooded_Buildings.geojson`, `Landslide_Buildings.geojson`
 
-*Roads*
-- Number of damaged vs intact road segments
-- Estimated length of damaged roads (km)
+#### Method 2: Google Drive export (complete)
 
-**Flood statistics (if activated)**
-- Flooded area (km²)
-- Distribution by land cover type (WorldCover)
-- Number of buildings in flooded area
-- Length of flooded roads (km)
+Full dataset without feature limit, including rasters (T-statistic GeoTIFF, flood extent, landslide susceptibility). Requires a Google Earth Engine account.
 
-**Landslide statistics (if activated)**
-- Total area in susceptibility zone (km²)
-- Distribution by probability level (Moderate, High, Very High)
-- Exposure zone area (runout zones)
-- Number of buildings at risk
-- Length of roads at risk (km)
-
-#### Map Layers
-
-The following layers are added to the "Layers" panel:
-
-**AOI**
-- Orange outline of study area
-
-**Damage (if activated)**
-- T-statistic raster: Change raster (continuous values)
-- Buildings intact: Green outline
-- Buildings Very High: Dark red outline
-- Buildings High: Orange outline
-- Buildings Moderate: Yellow outline
-- Roads intact: Green line
-- Roads damaged: Red line
-- Density bubbles: Circles proportional to damage density
-- Logistic hub: Suggested access point (calculated by weighted barycenter of damages and distance to infrastructure)
-
-**Flood (if activated)**
-- Extent: Flood extent (blue gradient according to classification)
-- Permanent water: Permanent water (light blue)
-- Flooded buildings: Buildings in flooded area (dark blue outline)
-- Flooded roads: Roads in flooded area (thick blue line)
-- (If time series): Dated layers for each Sentinel-1 acquisition
-
-**Landslide (if activated)**
-- Susceptibility: Brown gradient (1 = Moderate, 2 = High, 3 = Very High)
-- Exposure zones: Potential flow zones (light brown)
-- Buildings at risk: Buildings in risk zone (brown outline)
-- Roads at risk: Roads in risk zone (brown line)
-
-**Infrastructure**
-- Large/Medium/Small airports: Blue triangles (proportional size)
-- Heliports: Blue circles
-- Ports: Blue squares
-- Health facilities: Red crosses
-
-### Results Export
-
-Two export methods are offered:
-
-#### Method 1: Instant Download (client-side)
-
-**Advantages:**
-- No Google Earth Engine account required
-- Immediate download in browser
-- GeoJSON format (compatible QGIS, ArcGIS, etc.)
-
-**Limitations:**
-- Maximum 5000 features per layer
-- Vector data only (no rasters)
-
-**Available files:**
-- `Analysis_Summary.csv`: Textual statistics summary
-- `Buildings_Damage.geojson`: Damaged buildings with attributes (T_statistic, damage, confidence)
-- `Roads_Damage.geojson`: Damaged road segments with attributes
-- `Flooded_Buildings.geojson`: Buildings in flooded area
-- `Landslide_Buildings.geojson`: Buildings in landslide risk zone
-
-**Procedure:**
-1. In results panel, "INSTANT DOWNLOAD" section
-2. Click on blue link of desired file
-3. File downloads automatically
-
-#### Method 2: Google Drive Export (complete)
-
-**Advantages:**
-- Complete dataset without feature limits
-- Includes rasters (T-statistic, flood extent, landslide susceptibility)
-- Shapefile + GeoTIFF format
-
-**Limitations:**
-- Requires Google Earth Engine account (free)
-- Requires manual actions in Tasks interface
-
-**Exported files:**
-- `Analysis_Summary.csv`
-- `Buildings_Damage.shp` (+ .dbf, .shx, .prj, .cpg)
-- `Roads_Damage.shp`
-- `T_Statistic_Raster.tif` (GeoTIFF, 10m resolution)
-- `Flood_Extent.tif` (GeoTIFF, 10m resolution)
-- `Landslide_Susceptibility.tif` (GeoTIFF, 30m resolution)
-- `Landslide_Runout_Zones.tif` (GeoTIFF, 30m resolution)
-
-**Procedure:**
-1. In results panel, "GOOGLE DRIVE EXPORT" section
-2. Export tasks are automatically created
-3. Click on "Tasks" tab (orange icon top-right)
-4. For each task:
-   - Click "RUN"
-   - Confirm destination folder (default: `RapidDamage_[Zone]_[Date]`)
-   - Wait (blue bar → green once completed)
-5. Access files in Google Drive
-
-**Export duration (via Tasks):**
-- Depends on zone size and number of features
-- Generally: 2-10 minutes per task
+Procedure: results panel > "GOOGLE DRIVE EXPORT" section > "Tasks" tab > click "RUN" for each task.
 
 ### Troubleshooting
 
 | Error message | Probable cause | Solution |
 |---------------|----------------|----------|
-| `No POST images - increase Post interval` | No Sentinel-1 image found after EVENT-date | Increase Post interval to 7-14 days |
-| `Invalid date format` | Incorrect date format | Use YYYY-MM-DD format (e.g., 2025-10-28) |
-| `Pre-date must be before event` | Inverted dates | Verify Pre-date < Event-date |
-| `Draw an AOI first` | No study area defined | Draw polygon on map or paste WKT |
-| `Invalid building asset path` | Erroneous asset path | Verify format `projects/[PROJECT]/assets/[ASSET]` |
-| Calculation > 15 minutes | Area too large | Reduce AOI size (< 50 km²) |
+| `No POST images - increase Post interval` | No Sentinel-1 image found | Increase Post interval to 7–14 days |
+| `Invalid date format` | Incorrect date format | Use YYYY-MM-DD |
+| `Pre-date must be before event` | Inverted dates | Check Pre-date < Event-date |
+| `Draw an AOI first` | No study area defined | Draw a polygon or paste WKT |
+| Calculation > 15 minutes | Area too large | Reduce AOI (< 50 km²) |
 
 ---
 
@@ -605,1825 +377,700 @@ Two export methods are offered:
 
 ### Context
 
-Google Earth Engine is not optimized for building-level population estimation. Post-analysis processing in QGIS allows crossing damaged buildings with population density data to obtain an estimate of affected inhabitants.
+A standalone Python script (`Population_building.py`) allows crossing damaged buildings with population density data to estimate the number of affected inhabitants.
 
-### Prerequisites
+![Population per building script interface — QGIS](docs/screenshots/Pop_building_fenetre_eng.png)
 
-**Software:**
-- QGIS 3.x (stable version recommended)
+### Installation and launch
 
-**Required data:**
+1. Download `Population_building.py` from `tools/`
+2. Open QGIS (version 3.x)
+3. Menu: **Plugins** > **Python Script Editor**
+4. Open the `.py` file and click **Run**
 
-1. **Damaged building layer** (from GEE application)
-   - Format: GeoJSON or Shapefile
-   - File: `Buildings_Damage.geojson` or `Buildings_Damage.shp`
+### Required data
 
-2. **Building height data** (optional but recommended)
-   - **WSF 3D - Building Height V02**
-   - Source: DLR (German Aerospace Center)
-   - URL: [https://download.geoservice.dlr.de/WSF3D/files/](https://download.geoservice.dlr.de/WSF3D/files/)
-   - Resolution: 90m
-   - Format: GeoTIFF
+1. **Building layer**: `Buildings_Damage.geojson` (from the GEE application)
+2. **Study area (AOI)**: polygon defining the analysis zone
+3. **WSF3D Raster (height)** (optional but recommended) — downloadable at [https://download.geoservice.dlr.de/WSF3D/files/](https://download.geoservice.dlr.de/WSF3D/files/)
+4. **WorldPop Raster (population)** — download link available in the interface
 
-**WSF3D download:**
-1. Access DLR server
-2. Identify tile corresponding to study area (global grid)
-3. Download `.tif` file
-4. Nomenclature example: `WSF3D_V02_BuildingHeight_N18W078.tif`
+### Household parameters (required)
 
-3. **Population density data**
-   - Automatically loaded by model (WorldPop or GHS-POP)
-   - Requires internet connection
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| Persons / household | Average household size | 5 |
+| Floor height (m) | Standard floor height for floor count estimation | 3 m |
+| Min area / household (m²) | Minimum residential floor area per household | 10 m² |
+| Max area / household (m²) | Cap limiting the effect of large non-residential buildings | 100 m² |
 
-### QGIS Model Installation
+### Output columns
 
-1. Download file `Population_building.model3` from repository:
+The `Buildings_with_population` output layer contains two complementary estimates:
+- **Pop_raw**: disaggregation by building volume (classic method)
+- **Pop_settings**: disaggregation by estimated occupancy capacity (parametrised method, recommended)
+
+Graduated symbology (yellow → red) is applied automatically using Jenks natural breaks.
+
+### Correct interpretation
+
 ```
-tools/Population_building.model3
-```
+Correct formulation:
+"Approximately 10,000 people are potentially affected (estimate ±40%)"
 
-2. Open QGIS
-3. Menu: **Processing** > **Toolbox**
-4. Click options icon (gear) at top of toolbox
-5. Select **"Add model to toolbox"**
-6. Navigate to `Population_building.model3`
-7. Click **Open**
-
-Model appears in:
-```
-Processing
-└── Models
-    └── Population_building
+To avoid:
+"Exactly 10,547 people are affected"
 ```
 
-### Data Preparation
+Apply an uncertainty margin of ±30–50% and cross-reference with other sources (local censuses, field surveys).
 
-**Step 1: Load damaged building layer**
-1. Menu: **Layer** > **Add Layer** > **Add Vector Layer**
-2. Select `Buildings_Damage.geojson` (or `.shp`)
-3. Click **Add**
+### Limitations
 
-**Step 2: Load height layer (if available)**
-1. Menu: **Layer** > **Add Layer** > **Add Raster Layer**
-2. Select WSF3D `.tif` file
-3. Click **Add**
+- WorldPop: ~100m resolution, statistical model
+- WSF3D: 90m resolution — several buildings may share the same height value
+- Non-residential buildings receive a population estimate based on their area — the `Max area / household` parameter limits this effect
+- A metric CRS (UTM) is mandatory
 
-### Model Execution
-
-1. In toolbox, double-click **Population_building**
-2. Configure parameters:
-
-| Parameter | Description | Value |
-|-----------|-------------|-------|
-| Input building layer | Building vector layer | Buildings_Damage |
-| Building height raster (optional) | Building height raster | WSF3D_BuildingHeight or leave empty |
-| Population data source | Population density source | WorldPop (auto-download) |
-| Output layer | Output file | Path/filename (.gpkg or .shp) |
-
-3. Click **Run**
-
-**Processing time:**
-- 1000 buildings: ~30 seconds
-- 5000 buildings: ~2 minutes
-- 10000 buildings: ~5 minutes
-
-### Results Interpretation
-
-The model generates a new layer: `Buildings_with_population`
-
-**New attribute fields:**
-
-| Field | Type | Description | Unit |
-|-------|------|-------------|------|
-| pop_total | Float | Estimated population for this building | inhabitants |
-| pop_density | Float | Population density | inhab/m² |
-| building_height | Float | Estimated building height | m |
-| building_volume | Float | Estimated building volume | m³ |
-
-**Calculating total affected population:**
-
-1. Open attribute table (right-click > **Attribute table**)
-2. Click **Σ** icon (Basic statistics) at bottom of table
-3. Select `pop_total` field
-4. Check **Sum**
-5. Read resulting value
-
-**Example result:**
-```
-Sum of pop_total: 10547
-```
-Interpretation: Approximately 10,547 people are potentially affected by detected damage.
-
-**Analysis by severity level:**
-
-To cross with damage levels (Very High, High, Moderate):
-
-**Method 1: Selection by expression**
-1. In attribute table, click **Select by expression** (ε icon)
-2. Enter:
-```sql
-"confidence" = 'Very High'
-```
-3. Click **Select**
-4. Observe number of selected rows
-5. Use **Σ** > `pop_total` > **Sum** to get population in very damaged buildings
-
-**Method 2: Statistics by group**
-1. Menu: **Vector** > **Analysis** > **Basic statistics for fields**
-2. Configuration:
-   - Input layer: `Buildings_with_population`
-   - Field to analyze: `pop_total`
-   - Field to group by category: `confidence`
-3. Click **Run**
-
-**Typical result:**
-```
-Confidence    | Count | Sum pop_total
------------------------------------------
-Very High     |  123  |   3456
-High          |  287  |   5234
-Moderate      |  472  |   1857
-```
-
-**Interpretation:**
-- 3,456 people in very severely damaged buildings (priority 1)
-- 5,234 people in severely damaged buildings (priority 2)
-- 1,857 people in moderately damaged buildings (priority 3)
-
-### Export and Visualization
-
-**Thematic mapping:**
-1. Right-click on layer > **Properties** > **Symbology**
-2. Symbol type: **Graduated**
-3. Column: `pop_total`
-4. Mode: **Natural Breaks (Jenks)**
-5. Color ramp: Red gradient (low to high)
-6. Click **Classify** then **OK**
-
-**Results export:**
-1. Right-click on layer > **Export** > **Save Features As...**
-2. Format: GeoPackage (.gpkg) or Shapefile (.shp)
-3. Filename: `Buildings_Damage_Population`
-4. Click **OK**
-
-**Creating summary map (optional):**
-1. Menu: **Project** > **New Print Layout**
-2. Add:
-   - Map view
-   - Legend
-   - Scale
-   - Title and metadata
-3. Menu: **Layout** > **Export as PDF**
-
-### Limitations and Precautions
-
-**Methodological limitations:**
-
-1. **Nature of estimates**
-   - Population values are **statistical estimates**, not actual counts
-   - Based on density data at regional scale resolution (~100m for WorldPop)
-
-2. **Spatial resolution**
-   - WorldPop: ~100m
-   - WSF3D: 90m
-   - Imprecision potential for small isolated buildings
-
-3. **Model assumptions**
-   - Uniform population distribution within a building
-   - Constant occupancy (no day/night variations)
-   - No accounting for non-residential buildings
-
-4. **Missing data**
-   - If WSF3D unavailable: default height = 6m (2 floors)
-   - If WorldPop unavailable: default regional statistical density
-
-**Usage recommendations:**
-
-- Use these figures as **order of magnitude**
-- Apply uncertainty margin of ±30-50%
-- Cross-reference with other sources (local censuses, field surveys)
-- Validate in field for priority areas
-- Systematically communicate limitations when disseminating results
-
-**Correct interpretation:**
-- "Approximately 10,000 people are potentially affected (estimate ±40%)"
-- Avoid: "Exactly 10,547 people are affected"
-
----
 
 ---
 
 <a name="scientific-methodology"></a>
 # 2. Scientific Methodology
 
-## 2.1 General System Architecture
+## 2.1 Sentinel-1 and SAR analysis for post-disaster assessment
 
-### 2.1.1 Overview
+### 2.1.1 The value of all-weather radar
 
-The Rapid Damage Detection tool is based on a modular architecture composed of four main modules:
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                     INPUT DATA LAYER                            │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  Sentinel-1 GRD    │  DEM Sources   │  Vector Data  │ Ancillary│
-│  (SAR C-band)      │  (NASADEM,     │  (Buildings,  │ (WorldPop│
-│                    │   SRTM, etc.)  │   Roads)      │  CHIRPS) │
-│                                                                 │
-└────────────┬────────────────────────────────────────────────────┘
-             │
-             ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                  PROCESSING MODULES                             │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
-│  │   DAMAGE     │  │    FLOOD     │  │  LANDSLIDE   │          │
-│  │  DETECTION   │  │  DETECTION   │  │  DETECTION   │          │
-│  │   (PWTT)     │  │  (s1flood)   │  │ (Heatmaps +  │          │
-│  │              │  │              │  │  Suscept.)   │          │
-│  └──────────────┘  └──────────────┘  └──────────────┘          │
-│         │                  │                  │                 │
-│         └──────────────────┴──────────────────┘                 │
-│                            │                                    │
-│                            ▼                                    │
-│                  ┌──────────────────┐                          │
-│                  │     WEATHER      │                          │
-│                  │   STATISTICS     │                          │
-│                  │ (CHIRPS, GLDAS)  │                          │
-│                  └──────────────────┘                          │
-│                                                                 │
-└────────────┬────────────────────────────────────────────────────┘
-             │
-             ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    OUTPUT LAYER                                 │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  • Damage maps (buildings, roads)                              │
-│  • Flood extent maps                                           │
-│  • Landslide susceptibility maps                               │
-│  • Statistical reports                                         │
-│  • Time series charts                                          │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
-```
+Sentinel-1 (ESA, C-band, 5.405 GHz) acquires radar data independently of cloud cover and lighting conditions. This characteristic is critical in post-cyclone contexts, where cloud cover can block optical imagery for days to weeks after impact, as illustrated by the Beira (Mozambique, 2019) and Whitehouse, Jamaica (2025) cases.
 
-### 2.1.2 Main Processing Workflow
+### 2.1.2 SAR method families for damage assessment
 
-The general workflow follows this sequence:
+According to Ge et al. (2020), SAR analysis methods for damage assessment fall into four main families:
 
-1. **AOI definition** by user
-2. **Temporal selection** (Pre-date, Event-date, Intervals)
-3. **Data acquisition** Sentinel-1 and auxiliary
-4. **Pre-processing** (speckle filtering, calibration, reprojection)
-5. **Modular analysis** according to activated options
-6. **Post-processing** (aggregation, statistics)
-7. **Export** of results
+**1. Intensity-based Change Detection**
+Comparison of backscatter values between a pre-event and post-event image. This is the family to which this tool's method (T-statistic MEAN) belongs. It has the advantage of being applicable to standard GRD products without complex interferometric processing.
+
+**2. Coherence-based Change Detection**
+Exploitation of phase coherence loss between two acquisitions, highly sensitive to structural changes. Requires SLC (Single Look Complex) imagery and interferometric processing. Not implemented in this tool.
+
+**3. Polarimetry-based Analysis**
+Exploitation of radar signal polarimetric properties (covariance matrices, Pauli/Wishart decompositions, etc.) to characterise target structure changes. Requires full polarimetric data. Tested on Whitehouse (Wishart chi² method), results showed a non-discriminating signal on this standard GRD dataset (AUC ≈ 0.52, not different from random).
+
+**4. Integrated approaches**
+Combination of multiple methods or fusion with other sources (optical, DEM, field data). Represents the most promising avenue for future development.
+
+This tool's approach belongs to the **first family** (intensity), making it directly applicable to Sentinel-1 GRD products freely available on Google Earth Engine.
 
 ---
 
 ## 2.2 Damage Detection Module
 
-### 2.2.1 General Principle
+### 2.2.1 Physical principle — backscatter signal as a damage indicator
 
-Damage detection is based on the **Pixel-Wise T-Test (PWTT)** method developed by Ballinger (2024). This approach statistically compares two temporal periods (pre and post-event) to identify significant changes in radar backscatter.
+The principle relies on the modification of the radar signal by structural damage. An intact building generates a strong **double-bounce wall-ground mechanism** that reflects significant energy back towards the sensor. When this building is destroyed or severely damaged, this structure disappears and the signal drops abruptly.
 
-**Fundamental hypothesis:** Structural damage modifies signal scattering properties (surface roughness, structure orientation, material moisture).
+The following example, measured on a building pixel of Whitehouse (Jamaica) on an ascending orbit, illustrates this phenomenon strikingly:
 
-### 2.2.2 SAR Data Acquisition and Pre-processing
+![VV Backscatter — Cyclone Melissa — Building pixel Whitehouse, July–November 2025](docs/screenshots/backscatter_whitehouse_ascending_EN.png)
 
-#### Sentinel-1 Image Selection
+The VV backscatter time series (dB) shows a stable regime before Cyclone Melissa with a mean of **+8.7 dB** and low variability (±0.4 dB) over the July–October 2025 period, characteristic of a strong double-bounce mechanism. The cyclone's passage on 28 October 2025 causes a **sudden and persistent drop of −10.2 dB**, reflecting the destruction or severe deformation of the structure. This magnitude of change is well above the natural signal noise and is visually corroborated by the comparison of optical and radar pre/post-event images. This is precisely the type of statistical break that the PWTT T-statistic is designed to detect.
+
+### 2.2.2 Processing pipeline — PWTT method
+
+![Processing pipeline diagram — Structural Damage Detection (PWTT)](docs/screenshots/damage_detection_PWTT_EN.png)
+
+Damage detection is based on the **Pixel-Wise T-Test (PWTT)** method developed by Ballinger (2024). The complete pipeline is described in the diagram above and detailed below.
+
+### 2.2.3 SAR data acquisition and pre-processing
 
 **Filtering criteria:**
-- Acquisition mode: **IW (Interferometric Wide swath)**
-- Polarization: **VV + VH** (dual-pol)
-- Product type: **GRD (Ground Range Detected)**
-- Spatial resolution: **10m × 10m**
+- Acquisition mode: IW (Interferometric Wide swath)
+- Polarisation: VV + VH (dual-pol)
+- Product type: GRD FLOAT (Ground Range Detected)
+- Spatial resolution: 10m × 10m
 
-**Temporal windows:**
+**Time windows:**
 ```
-Pre-window:  [Pre-date - Pre_interval] ────► [Pre-date]
-                                                  │
-                                                  │  Normal period
-                                                  ▼
-Post-window:             [Event-date] ────► [Event-date + Post_interval]
+Pre-window:  [Pre-date - Pre_interval] ──► [Pre-date]
+Post-window:             [Event-date] ──► [Event-date + Post_interval]
 ```
 
-**Adaptive post-event window expansion:**
+**Speckle filtering**: adaptive Lee filter (Lee, 1980).
 
-If no image is found in the initial window, the algorithm progressively extends the window by 1-day increments until:
-- Finding at least 1 image, OR
-- Reaching a maximum limit of 6 additional days
+**Log transformation**: `σ_dB = 10 × log₁₀(σ⁰)` to normalise the value distribution.
 
-This approach ensures coverage even with irregular acquisitions.
+### 2.2.4 Pixel-wise statistical test
 
-#### Speckle Filtering
+For each pixel, a two-tailed t-test is applied separately per relative orbit and polarisation (VV and VH):
 
-Speckle noise, inherent to SAR imagery, is attenuated by an **adaptive Lee filter** (Lee, 1980).
-
-**Principle:** Noise reduction while preserving edges and fine details.
-
-**Lee filter formula:**
-```
-I_filtered = I_mean + W × (I - I_mean)
-```
-
-Where:
-- `I` = Raw pixel value
-- `I_mean` = Local mean (3×3 pixel window)
-- `W` = Adaptive weight function of local variance
-- `η` = Theoretical coefficient of variation (multiplicative speckle)
-```
-W = (1 - η² / C_v²) / (1 + η²)
-```
-
-Where:
-- `C_v = σ_local / I_mean` (local coefficient of variation)
-- `η = 1 / √N_looks` (for Sentinel-1 GRD, N_looks ≈ 5)
-
-**Implementation:**
-```javascript
-var eta = 1.0 / Math.sqrt(5);  // Sentinel-1 GRD ~ 5 looks
-var kernel = ee.Kernel.square(1, 'pixels');  // 3×3 window
-```
-
-#### Logarithmic Transformation
-
-Backscatter values are transformed to logarithmic scale (dB):
-```
-σ_dB = 10 × log₁₀(σ₀)
-```
-
-This transformation:
-- Normalizes value distribution
-- Stabilizes variance
-- Linearizes radiometric relationships
-
-### 2.2.3 Pixel-wise Statistical Test
-
-#### Student's t-statistic Calculation
-
-For each pixel, a two-tailed t-test is applied to compare pre and post-event means.
-
-**Null hypothesis H₀:** μ_pre = μ_post (no change)  
-**Alternative hypothesis H₁:** μ_pre ≠ μ_post (significant change)
-
-**t-statistic formula:**
 ```
          μ_post - μ_pre
 t = ─────────────────────────
     s_pooled × √(1/n_pre + 1/n_post)
 ```
 
-Where:
-```
-         √[(n_pre - 1)s²_pre + (n_post - 1)s²_post]
-s_pooled = ────────────────────────────────────────
-                    n_pre + n_post - 2
-```
+The absolute value is used since only the magnitude of change matters. Results from all orbits and polarisations are merged by **maximum**: `T_final = max |T| — all orbits/pol.`
 
-With:
-- `μ_pre` = Mean of pre-event values (dB)
-- `μ_post` = Mean of post-event values (dB)
-- `s²_pre`, `s²_post` = Sample variances
-- `n_pre`, `n_post` = Number of images (distinct orbits)
-- `s_pooled` = Pooled standard deviation
+### 2.2.5 Multi-scale spatial smoothing and aggregation
 
-**Degrees of freedom:**
-```
-df = n_pre + n_post - 2
-```
-
-**GEE implementation:**
-```javascript
-var preN = ee.Number(pre.aggregate_array('orbitNumber_start').distinct().size());
-var postN = ee.Number(post.aggregate_array('orbitNumber_start').distinct().size());
-
-var pooledSd = pre.reduce(ee.Reducer.stdDev()).pow(2).multiply(preN.subtract(1))
-  .add(post.reduce(ee.Reducer.stdDev()).pow(2).multiply(postN.subtract(1)))
-  .divide(preN.add(postN).subtract(2)).sqrt();
-
-var denom = pooledSd.multiply(
-  ee.Image.constant(1).divide(preN).add(ee.Image.constant(1).divide(postN)).sqrt()
-);
-
-var T_stat = postMean.subtract(preMean).divide(denom).abs();
-```
-
-**Note:** Absolute value is used because only change magnitude matters (damage = increase or decrease in backscatter).
-
-#### Multi-orbit Processing
-
-Sentinel-1 acquires data along multiple **relative orbits** (ascending and descending passes). To avoid angular biases, the t-test is calculated **separately for each orbit**, then results are merged by maximum:
-```
-T_final(x,y) = max [T_orbit1(x,y), T_orbit2(x,y), ..., T_orbitN(x,y)]
-```
-
-This approach preserves the most significant detected change, regardless of acquisition geometry.
-
-### 2.2.4 Multi-scale Spatial Smoothing
-
-To reduce residual noise and highlight coherent structures, **multi-scale Gaussian smoothing** is applied:
 ```
 T_smooth = (T_raw + T_50m + T_100m + T_150m) / 4
 ```
 
-Where:
-- `T_raw` = Raw t-statistic
-- `T_50m` = Convolution with 50m radius Gaussian kernel
-- `T_100m` = Convolution with 100m radius Gaussian kernel
-- `T_150m` = Convolution with 150m radius Gaussian kernel
-
-**Justification:** Damaged buildings generally present coherent spatial signatures over multiple pixels. Multi-scale smoothing:
-- Reinforces structures of characteristic size 50-150m
-- Attenuates isolated false positives (noise, artifacts)
-- Preserves damaged area contours
-
-**Implementation:**
-```javascript
-var T_stat_urban = maxChange_raw
-  .add(maxChange_raw.convolve(ee.Kernel.circle(50, 'meters', true)))
-  .add(maxChange_raw.convolve(ee.Kernel.circle(100, 'meters', true)))
-  .add(maxChange_raw.convolve(ee.Kernel.circle(150, 'meters', true)))
-  .divide(4);
-```
-
-### 2.2.5 Damage Level Classification
-
-#### t-statistic Thresholding
-
-A threshold `T_threshold` (default: 2.4) is applied to classify pixels:
-```
-Damage = {
-  0  if T < T_threshold        (no damage)
-  1  if T ≥ T_threshold        (damage detected)
-}
-```
-
-**Justification for 2.4 threshold:**
-- For a two-tailed t-test with df ≈ 10-20:
-  - t = 2.4 corresponds approximately to p < 0.05 (95% confidence)
-- Empirical compromise between:
-  - Sensitivity (detecting slight damage)
-  - Specificity (avoiding false positives)
-
-#### Confidence Levels
-
-Buildings classified as damaged are subdivided into three confidence levels:
-
-| Level | T Range | Interpretation |
-|--------|---------|----------------|
-| **Moderate** | T_threshold ≤ T < T_threshold + 1 | Moderate change, validation recommended |
-| **High** | T_threshold + 1 ≤ T < T_threshold + 2 | High change, strong damage probability |
-| **Very High** | T ≥ T_threshold + 2 | Very high change, damage quasi-certain |
-
-**Example with T_threshold = 2.4:**
-- Moderate: 2.4 ≤ T < 3.4
-- High: 3.4 ≤ T < 4.4
-- Very High: T ≥ 4.4
-
-### 2.2.6 Building-level Aggregation
-
-#### Per-building Statistics Extraction
-
-For each building polygon, the **mean** t-statistic is calculated:
-```javascript
-var fp = T_stat_image.reduceRegions({
-  collection: buildings,
-  reducer: ee.Reducer.mean(),
-  scale: 10
-});
-```
-
-**Justification for mean:**
-- Robust to local extreme values
-- Represents building's global change
-- Compatible with t-test theory (multiple sampling)
-
-#### Class Attribution
-
-Each building receives:
-- **T_statistic:** Mean t value
-- **damage:** 0 (intact) or 1 (damaged)
-- **confidence:** Moderate / High / Very High
-
-### 2.2.7 Road Processing
-
-#### Road Network Segmentation
-
-Linear roads are segmented into fixed-length sections (default: 100m) via spatial grid:
-```
-┌────────────────────────────────────────┐
-│         │         │         │          │
-│  Cell   │  Cell   │  Cell   │  Cell    │
-│  (100m) │  (100m) │  (100m) │  (100m)  │
-│         │         │         │          │
-├─────────┼─────────┼─────────┼──────────┤
-│    Road segments intersected           │
-└────────────────────────────────────────┘
-```
-
-**Algorithm:**
-1. Create regular grid of 100m × 100m cells
-2. Dissolve all road lines into single geometry
-3. Intersect this geometry with each grid cell
-4. Keep non-empty segments
-
-#### Buffer and Statistics Extraction
-
-Each road segment is buffered (default: 6m radius) to capture adjacent pixels:
-```
-─────────────────  Road (line)
-     ▓▓▓▓▓         Buffer 6m
-─────────────────
-```
-
-The **maximum** t-statistic is extracted within each buffer:
-```javascript
-var roadsStats = T_stat_roads.reduceRegions({
-  collection: roadsSegmented.map(function(f) { 
-    return f.buffer(BUFFER_ROADS_M); 
-  }),
-  reducer: ee.Reducer.max(),
-  scale: 10
-});
-```
-
-**Justification for maximum:**
-- Damaged roads often show localized damage (craters, collapses)
-- Maximum captures these local anomalies
-- More sensitive than mean for linear structures
+This smoothing reinforces coherent structures at 50–150m and attenuates isolated false positives. The **spatial mean** of T_smooth is then computed over each building footprint (`ee.Reducer.mean()`), and compared to the T_threshold (default 2.4) for Intact / Moderate / High / Very High classification.
 
 ---
 
 ## 2.3 Flood Detection Module
 
-### 2.3.1 General Principle
+![Processing pipeline diagram — Flood Detection (SAR Z-score)](docs/screenshots/flood_detection_EN.png)
 
-Flood detection exploits the **drastic decrease in radar backscatter** in presence of water. The s1flood algorithm (DeVries et al., 2020) uses a **z-score** (normalized deviation) approach to identify abnormally dark pixels.
+Based on the s1flood algorithm (DeVries et al., 2020). Pixel-wise z-score computation, separately per polarisation, orbit and pass direction:
 
-**Physical principle:**
-- Calm water surface: specular reflection → low backscatter (dark pixels)
-- Dry soil or vegetation: volume scattering → high backscatter (bright pixels)
-
-### 2.3.2 Z-score Calculation
-
-#### Baseline Period Definition
-
-A reference ("baseline") period is defined to characterize normal state:
 ```
-Baseline: [Pre-date - Pre_interval] ────► [Pre-date]
+z(x,y) = (I_post - μ_baseline) / σ_baseline
 ```
 
-For each pixel, **mean** (μ_baseline) and **standard deviation** (σ_baseline) are calculated over all images in this period.
-
-#### Z-score Normalization
-
-For each post-event image, the z-score is calculated:
-```
-         I_post - μ_baseline
-z(x,y) = ───────────────────
-            σ_baseline
-```
-
-Where:
-- `I_post` = Pixel value in post-event image (dB)
-- `μ_baseline` = Pixel mean during baseline period
-- `σ_baseline` = Pixel standard deviation during baseline period
-
-**Interpretation:**
-- z ≈ 0: Normal value
-- z < -2: Abnormally low value (flood potential)
-- z < -3: Very abnormally low value (high flood probability)
-
-#### Orbit and Polarization Separation
-
-Z-score is calculated **separately** for:
-- **Acquisition mode:** IW (Interferometric Wide)
-- **Orbit direction:** Ascending / Descending
-- **Polarization:** VV and VH
-
-This separation ensures radiometric consistency of comparisons (same acquisition geometry).
-
-**Implementation:**
-```javascript
-var z_asc = calcZscore(s1Collection, baseStart, baseEnd, 'IW', 'ASCENDING');
-var z_dsc = calcZscore(s1Collection, baseStart, baseEnd, 'IW', 'DESCENDING');
-var zAll = ee.ImageCollection(z_asc.merge(z_dsc));
-```
-
-### 2.3.3 Flood Classification
-
-#### Z-score Thresholds
-
-Two thresholds are applied on VV and VH polarizations:
-```
-ZVV_threshold = -2.5  (default)
-ZVH_threshold = -2.5  (default)
-```
-
-A pixel is considered potentially flooded if:
-```
-Flood_candidate = (z_VV < ZVV_threshold) ∨ (z_VH < ZVH_threshold)
-```
-
-The logical **OR** operator captures floods even if only one polarization shows strong signal.
-
-#### Permanent Water Masking
-
-To distinguish **new floods** from **permanent water**, two sources are used:
-
-**1. ESA WorldCover v200**
-- Class 80: Permanent water bodies
-- Resolution: 10m
-- Year: 2021
-
-**2. JRC Global Surface Water (Monthly History)**
-- Water occurrence frequency (%)
-- Resolution: 30m
-- Period: 1984-present
-
-**Masking algorithm:**
-```javascript
-var worldcoverWater = worldcover.eq(80);  // Permanent water (WorldCover)
-
-var jrcvalid = jrc.map(function(x) { return x.gt(0); }).sum();  // Valid months
-var jrcwat = jrc.map(function(x) { return x.eq(2); }).sum()     // Months with water
-  .divide(jrcvalid).multiply(100);                              // Frequency (%)
-
-var permanentWater = jrcwat.gte(POW_threshold);  // POW_threshold = 90% (default)
-var inundation = jrcwat.gte(PIN_threshold)       // PIN_threshold = 25% (default)
-                       .and(jrcwat.lt(POW_threshold));
-```
-
-**Resulting classes:**
-
-| Class | Code | Description |
-|--------|------|-------------|
-| Permanent water | 20 | Permanent water (WorldCover or JRC > 90%) |
-| Flood (VV only) | 1 | z_VV < threshold, z_VH > threshold |
-| Flood (VH only) | 2 | z_VH < threshold, z_VV > threshold |
-| Flood (VV + VH) | 3 | z_VV < threshold AND z_VH < threshold |
-| Flood (Inundation) | 10 | Historically floodable zone (25% < JRC < 90%) |
-
-### 2.3.4 Morphological Post-processing
-
-#### Slope Filtering
-
-High slope areas are excluded as water cannot accumulate there:
-```javascript
-var slope = ee.Terrain.slope(elevation);
-flood = flood.updateMask(slope.lt(MAX_SLOPE));  // MAX_SLOPE = 5° (default)
-```
-
-**Justification:** Slopes > 5°: rapid runoff, improbable accumulation.
-
-#### Connectivity Filtering
-
-Isolated pixels (artifacts, shadows) are eliminated by connectivity filter:
-```javascript
-var connectedPixels = flood.connectedPixelCount();
-flood = flood.updateMask(connectedPixels.gte(MIN_CONNECTIVITY));
-// MIN_CONNECTIVITY = 8 pixels (default)
-```
-
-**Principle:** A pixel is kept only if connected to at least 8 other flooded pixels (connected component of size ≥ 8).
-
-#### Spatial Smoothing
-
-A circular median filter is applied to regularize contours:
-```javascript
-flood = flood.focal_median(SMOOTHING_RADIUS, 'circle', 'meters');
-// SMOOTHING_RADIUS = 25m (default)
-```
-
-**Effect:** Smoothing irregular contours, closing small discontinuities.
-
-### 2.3.5 Time Series (Time Series Mode)
-
-#### Principle
-
-When "Time Series" option is activated, the algorithm processes **all available Sentinel-1 dates** in the specified period:
-```
-Time series window: [From_date] ────────────────► [To_date]
-                         │                           │
-                         ▼                           ▼
-                    Image 1, Image 2, ..., Image N
-```
-
-For each date, a flood map is generated by applying the s1flood algorithm.
-
-#### Flooded Area Calculation
-
-For each date, flooded area is calculated:
-```javascript
-var floodMask = floodLayer.gt(0);
-var floodArea = floodMask.multiply(ee.Image.pixelArea()).reduceRegion({
-  reducer: ee.Reducer.sum(),
-  geometry: aoi,
-  scale: 10,
-  maxPixels: 1e13
-});
-var areaKm2 = ee.Number(floodArea.get('flood_class')).divide(1e6);
-```
-
-**Unit:** km²
-
-#### Orbit Separation
-
-Results are separated by orbit direction (Ascending / Descending) to track evolution independently of acquisition geometry:
-```
-Date       │ Ascending (km²) │ Descending (km²)
-───────────┼─────────────────┼──────────────────
-2025-09-05 │      0.052      │       -
-2025-09-08 │       -         │      0.048
-2025-09-11 │      0.103      │       -
-2025-09-14 │       -         │      0.087
-```
-
-#### Evolution Graph
-
-A **ColumnChart** (vertical bars) graph is generated with:
-- X-axis: Dates
-- Y-axis: Flooded area (km²)
-- Series 1: Ascending orbits (light blue)
-- Series 2: Descending orbits (dark blue)
-
-**Interpretation:**
-- Identifies **flood peak**
-- Tracks **progressive recession**
-- Detects **residual flooding**
-
-#### Wet Baseline Detection
-
-If the first date in time series already shows significant flooded area (> 0.5 km²), a warning is displayed:
-```
-WARNING: Baseline appears wet!
-First date (2025-09-05) shows 0.52 km² already flooded
-SUGGESTION: Move PRE_DATE earlier to ensure dry baseline
-   Recommended PRE_DATE: 2025-08-05
-```
-
-This detection ensures the reference period is indeed "dry".
+A pixel is classified as flooded if z_VV ≤ −2.5 or z_VH ≤ −2.5. The result is a 4-class raster: dry / VV only / VH only / VV+VH. Permanent water is masked (ESA WorldCover class 80 + JRC Monthly History GSW ≥ 90%). Post-processing: slope filtering (< 5°), connectivity filtering (≥ 8 connected pixels), spatial smoothing (25m radius). Intersection with building footprints and road segments produces GeoJSON exports.
 
 ---
 
 ## 2.4 Landslide Detection Module
 
-### 2.4.1 General Principle
+![Processing pipeline diagram — Landslide Detection (Composite Susceptibility)](docs/screenshots/landslide_detection_EN.png)
 
-Landslide detection combines two complementary approaches:
+Two parallel streams are combined: the SAR change signal (Max |T| PWTT) and topographic derivatives from the DEM. A topographic mask (slope ≥ 10° and curvature ≥ 0.05) is applied to the SAR signal to limit false positives in flat areas.
 
-1. **SAR change detection** (similar to Damage module)
-2. **Susceptibility model** based on environmental factors
+The composite susceptibility score is a weighted sum of five factors (Kanani-Sadat et al., 2015):
 
-**Hypothesis:** Landslides occur preferentially in zones combining:
-- SAR backscatter change (ground movement)
-- Predisposing factors (slope, curvature, precipitation, soil type)
+| Factor | Source | Weight |
+|--------|--------|--------|
+| 30-day cumulative precipitation | CHIRPS Daily | 0.143 |
+| Slope (deg/30, clamped) | DEM | 0.128 |
+| Soil clay 0–5 cm | SoilGrids ISRIC | 0.123 |
+| Aspect (north-facing) | DEM | 0.112 |
+| Curvature (Gaussian) | DEM | 0.100 |
 
-### 2.4.2 Susceptibility Factors
+Final 3-level classification requires score ≥ 0.3 **and** T ≥ T_threshold:
+- **Level 1 (Low)**: T ∈ [2.4, 3.4)
+- **Level 2 (Medium)**: T ∈ [3.4, 4.4)
+- **Level 3 (High)**: T ≥ 4.4
 
-The susceptibility model aggregates **five weighted factors**, inspired by Kanani-Sadat et al. (2015):
-
-#### Factor 1: Cumulative Precipitation (weight: 0.143)
-
-**Source:** CHIRPS Daily (Climate Hazards Group InfraRed Precipitation with Station data)
-
-**Time window:** 30 days preceding event
-```javascript
-var precipStart = ee.Date(EVENT_DATE).advance(-30, 'day');
-var precipEnd = ee.Date(EVENT_DATE);
-var precip = ee.ImageCollection('UCSB-CHG/CHIRPS/DAILY')
-  .select('precipitation')
-  .filterDate(precipStart, precipEnd)
-  .sum();
-```
-
-**Normalization:**
-```
-precipScore = min(precip / 300, 1) × 0.143
-```
-
-**Justification:**
-- 300 mm in 30 days ≈ soil saturation threshold
-- Weight 0.143 (14.3%) based on Kanani-Sadat et al. AHP analysis
-
-#### Factor 2: Slope (weight: 0.128)
-
-**Calculation:**
-```javascript
-var slope = ee.Terrain.slope(elevation);
-```
-
-**Normalization:**
-```
-slopeScore = min(slope / 30, 1) × 0.128
-```
-
-**Justification:**
-- Slopes > 30°: maximum susceptibility
-- Weight 0.128 (12.8%)
-
-#### Factor 3: Soil Type - Clay (weight: 0.123)
-
-**Source:** SoilGrids ISRIC (clay content, 0-5 cm depth)
-```javascript
-var clay = ee.Image('projects/soilgrids-isric/clay_mean')
-  .select('clay_0-5cm_mean');
-```
-
-**Normalization:**
-```
-soilScore = (clay / 100) × 0.123
-```
-
-**Justification:**
-- Clay soils: low permeability, instability in presence of water
-- Weight 0.123 (12.3%)
-
-#### Factor 4: Aspect (slope orientation) (weight: 0.112)
-
-**Calculation:**
-```javascript
-var aspect = ee.Terrain.aspect(elevation);
-var northFacing = aspect.lte(45).or(aspect.gte(315));
-```
-
-**Score:**
-```
-aspectScore = northFacing ? 1.0 × 0.112 : 0.5 × 0.112
-```
-
-**Justification:**
-- North-facing slopes (northern hemisphere): less sunlight, residual moisture
-- Weight 0.112 (11.2%)
-
-#### Factor 5: Terrain Curvature (weight: 0.100)
-
-**Calculation:** Curvature = divergence of elevation gradient
-```javascript
-var smooth_curv = ee.Kernel.gaussian({
-  radius: 60, 
-  sigma: 30, 
-  units: 'meters', 
-  normalize: true
-});
-var elevation_smooth = elevation.convolve(smooth_curv);
-var xyDemGrad = elevation_smooth.gradient();
-var xGradient = xyDemGrad.select('x').gradient();
-var yGradient = xyDemGrad.select('y').gradient();
-var curvature = xGradient.select('x').add(yGradient.select('y'));
-```
-
-**Normalization:**
-```
-curvatureScore = min(|curvature| / 0.2, 1) × 0.100
-```
-
-**Justification:**
-- High curvature (concave or convex): structural instability zones
-- Weight 0.100 (10.0%)
-
-#### Total Susceptibility Score
-```
-S_total = precipScore + slopeScore + soilScore + aspectScore + curvatureScore
-```
-
-**Range:** 0 to 0.606 (sum of weights)
-
-### 2.4.3 SAR Change Masking
-
-The t-statistic from the Damage Detection module is reused, with specific masks:
-
-**Mask 1: Minimum slope**
-```javascript
-var mask_slope = slope.gte(MIN_SLOPE);  // MIN_SLOPE = 10° (default)
-```
-
-**Mask 2: Minimum curvature**
-```javascript
-var mask_curvature = curvature.gte(MIN_CURVATURE);  // MIN_CURVATURE = 0.05 (default)
-```
-
-**Mask 3: Water area exclusion**
-```javascript
-var waterMask = worldcover.neq(80);  // Exclude "water" class from WorldCover
-```
-
-**Application:**
-```javascript
-var T_stat_landslide = maxChange_raw
-  .updateMask(mask_slope)
-  .updateMask(mask_curvature)
-  .updateMask(waterMask);
-```
-
-### 2.4.4 Probability Level Classification
-
-Pixels are classified based on **combination** of susceptibility score and t-statistic:
-```
-Landslide_level = {
-  0  (no landslide)      if S_total < 0.3 OR T < T_threshold
-  1  (Moderate)          if S_total ≥ 0.3 AND T_threshold ≤ T < T_threshold + 1
-  2  (High)              if S_total ≥ 0.3 AND T_threshold + 1 ≤ T < T_threshold + 2
-  3  (Very High)         if S_total ≥ 0.3 AND T ≥ T_threshold + 2
-}
-```
-
-**Susceptibility threshold: 0.3**
-- Corresponds approximately to 50% of maximum possible score (0.606)
-- Filters low predisposition zones
-
-### 2.4.5 Flow Zones (Runout Zones)
-
-Landslides can generate debris flows that flow downslope. An **exposure zone** is calculated by morphological dilation:
-```javascript
-var kernel = ee.Kernel.circle({radius: 100, units: 'meters'});
-var runoutZone = landslides.gt(0).focal_max({kernel: kernel})
-  .subtract(landslides.gt(0))
-  .selfMask();
-```
-
-**Principle:**
-1. Dilation of landslide zones (radius: 100m)
-2. Subtraction of source zones
-3. Result: 100m ring around landslides
-
-**Interpretation:** Zone potentially affected by debris flow, even without in-situ landslide.
+A 100m runout zone is computed by focal expansion around source areas.
 
 ---
 
 ## 2.5 Weather Statistics Module
 
-### 2.5.1 Data Sources
-
-The weather module aggregates data from two main sources:
-
 | Variable | Source | Spatial resolution | Temporal resolution |
-|----------|--------|-------------------|---------------------|
+|----------|--------|--------------------|---------------------|
 | Precipitation | CHIRPS Daily | 5.5 km | Daily |
-| Instantaneous wind | GLDAS NOAH v2.1 | 27.8 km | 3-hourly |
-| Surface pressure | GLDAS NOAH v2.1 | 27.8 km | 3-hourly |
-
-### 2.5.2 Time Window
-
-**Standard mode:**
-```
-[Pre-date] ──────────────────────► [Event-date + 3 days]
-```
-
-**Time Series mode (if activated):**
-```
-[TIME_SERIES_START] ─────────────► [TIME_SERIES_END]
-```
-
-### 2.5.3 Daily Aggregation
-
-For each day of the period:
-
-**Precipitation:**
-- Daily sum (mm/day)
-
-**Wind:**
-- Conversion to km/h: `wind_kmh = wind_m/s × 3.6`
-- Daily average (mean wind)
-- Daily maximum (maximum gust)
-
-**Pressure:**
-- Conversion to hPa: `pressure_hPa = pressure_Pa / 100`
-- Daily average
-- Daily minimum (depression indicator)
-
-### 2.5.4 Global Statistics
-
-For the entire period:
-```javascript
-var totalPrecip = sum(daily_precip);              // Cumulative precipitation (mm)
-var maxPrecip = max(daily_precip);                // Maximum daily rain (mm)
-var maxWind = max(daily_wind_max);                // Maximum gust (km/h)
-var minPressure = min(daily_pressure_min);        // Minimum pressure (hPa)
-```
-
-These values are displayed in the results panel and characterize event intensity.
-
-### 2.5.5 Graphical Visualization
-
-**Graph 1: Daily Precipitation (ColumnChart)**
-
-- X-axis: Dates (MM/DD)
-- Y-axis: Precipitation (mm)
-- Color: Blue (normal), Red (event day)
-
-**Graph 2: Wind and Pressure (LineChart multi-axis)**
-
-- X-axis: Dates (MM/DD)
-- Y-axis left: Wind (km/h)
-  - Solid green line: Mean wind
-  - Dashed green line: Maximum wind
-- Y-axis right: Pressure (hPa)
-  - Solid yellow line: Mean pressure
-  - Dashed red line: Minimum pressure
-
-**Interpolation:** `interpolateNulls: true` to smooth missing data.
+| Wind | GLDAS NOAH v2.1 | 27.8 km | 3-hourly |
+| Pressure | GLDAS NOAH v2.1 | 27.8 km | 3-hourly |
 
 ---
 
-## 2.6 Performance Indicator Calculation
+## 2.6 Methodological limitations
 
-### 2.6.1 Damage Indicators
+**Damage Detection:** sensitivity to soil moisture between PRE and POST acquisitions, confusion with vegetation debris, 10m resolution limiting for small buildings (< 100 m²), radar shadows and foreshortening in mountainous areas.
 
-**Damage completeness:**
-```
-         Number of damaged buildings
-E_d = ────────────────────────────────
-      Total number of buildings in AOI
-```
+**Flood Detection:** dense vegetation masking underlying water, shallow water (< 10 cm) difficult to detect, flash floods shorter than 6 days potentially missed.
 
-**Spatial damage density:**
+**Landslide Detection:** factor weights from literature, not regionally calibrated; 30m DEM resolution insufficient for micro-topographies.
 
-Calculated by rasterization of damaged buildings (resolution: 100m) then spatial sampling:
-```javascript
-var damageRaster = damaged.reduceToImage({
-  properties: ['damage'],
-  reducer: ee.Reducer.count()
-}).reproject({crs: 'EPSG:4326', scale: 100});
-```
-
-"Density bubbles" (proportional circles) are generated by:
-```
-radius_bubble = √(count) × 25 meters
-```
-
-### 2.6.2 Flood Indicators
-
-**Flooded area:**
-```
-                  Σ (pixelArea) for flood > 0
-A_flood (km²) = ─────────────────────────────
-                        1,000,000
-```
-
-**Proportion of flooded buildings:**
-```
-         Number of buildings in flooded area
-P_b = ─────────────────────────────────────
-      Total number of buildings in AOI
-```
-
-**Length of flooded roads:**
-```
-L_road (km) = (Number of flooded segments) × (Segment length) / 1000
-```
-
-### 2.6.3 Landslide Indicators
-
-**Area in susceptibility zone:**
-```
-                    Σ (pixelArea) for landslide > 0
-A_landslide (km²) = ──────────────────────────────
-                            1,000,000
-```
-
-**Distribution by level:**
-```
-A_moderate = Σ (pixelArea) for landslide = 1
-A_high = Σ (pixelArea) for landslide = 2
-A_very_high = Σ (pixelArea) for landslide = 3
-```
-
-### 2.6.4 Logistic Hub
-
-The "logistic hub" is calculated as a **weighted barycenter** of damages, adjusted based on proximity to infrastructure (ports, airports).
-
-**Step 1: Damage barycenter**
-```
-       Σ (lon_i × count_i)
-lon_bary = ──────────────────
-          Σ (count_i)
-
-       Σ (lat_i × count_i)
-lat_bary = ──────────────────
-          Σ (count_i)
-```
-
-Where:
-- `(lon_i, lat_i)` = Coordinates of sampling point i
-- `count_i` = Number of damaged buildings in cell i
-
-**Step 2: Infrastructure centroid**
-
-If ports or airports are present in AOI:
-```
-centroid_infra = Centroid (Union of all ports and airports)
-```
-
-**Step 3: Weighted hub**
-```
-lon_hub = 0.7 × lon_infra + 0.3 × lon_bary
-lat_hub = 0.7 × lat_infra + 0.3 × lat_bary
-```
-
-**Justification:**
-- 70% weight on infrastructure: favors accessibility
-- 30% weight on damages: ensures proximity to affected areas
-
-**Step 4: Road network projection**
-
-Hub is projected onto nearest road segment (distance < 10m) to ensure accessibility.
+**Weather Statistics:** limited spatial resolution (CHIRPS 5.5 km, GLDAS 27.8 km), sub-kilometre variability not captured.
 
 ---
 
-## 2.7 Methodological Limitations
+<a name="interpretation"></a>
+# 3. Results Interpretation and Usage Guide
 
-### 2.7.1 Damage Detection Module Limitations
+> **Validation context:** The performance figures presented in this section are derived from the analysis of Cyclone Melissa (Jamaica, Whitehouse, 28–29 October 2025) over Zone 1 (1.57 km²), using parameters `PRE_DATE = '2024-11-20'`, `EVENT_DATE = '2025-10-29'`, `PRE_INTERVAL = 180 days` (28 PRE images). The reference layer was manually constructed from UNOSAT data ([UNOSAT FL20251030JAM](https://unosat.org/products/4215)), validated by photo-interpretation on NOAA very-high-resolution aerial imagery acquired on 31 October 2025. Due to geometric discrepancies between global building databases and ground reality, a dedicated building layer was manually reconstructed.
 
-**Sensitivity to acquisition conditions:**
-- SAR backscatter is influenced by soil moisture
-- Precipitation between pre and post acquisitions can generate false positives
-
-**Confusion with other changes:**
-- Vegetation debris (fallen trees): signal similar to structural damage
-- Residual flooding: backscatter decrease confused with damage
-
-**Spatial resolution:**
-- Sentinel-1: 10m × 10m
-- Small buildings (< 100 m²): weak radar signature, limited detection
-
-**Radar geometry:**
-- Shadows and layover in mountainous areas
-- Foreshortening on slopes facing satellite
-
-### 2.7.2 Flood Detection Module Limitations
-
-**Dense vegetation:**
-- Forest canopy masks underlying water
-- Underestimation of flooding in tropical forest
-
-**Shallow water:**
-- Low depth (< 10 cm): attenuated but non-null radar signal
-- Risk of non-detection
-
-**Limited acquisitions:**
-- Sentinel-1: ~6 day revisit
-- Short-duration flash floods (< 6 days): potentially missed
-
-**Permanent water:**
-- Dependence on JRC and WorldCover databases
-- Seasonal wetlands sometimes misclassified
-
-### 2.7.3 Landslide Detection Module Limitations
-
-**Empirical susceptibility model:**
-- Factor weights from literature (Kanani-Sadat et al., 2015)
-- Not specifically calibrated for each region
-
-**DEM resolution:**
-- NASADEM / SRTM: 30m
-- Inability to detect micro-topographies (< 30m)
-
-**Detection delay:**
-- Landslides manifest progressively
-- Optimal SAR signal after consolidation (several days/weeks)
-
-**Confusion with vegetation:**
-- Deforestation, forest cuts: similar radar signature
-
-### 2.7.4 Weather Statistics Module Limitations
-
-**Spatial resolution:**
-- CHIRPS: 5.5 km
-- GLDAS: 27.8 km
-- Sub-kilometer variability not captured (localized storms)
-
-**Measurement accuracy:**
-- CHIRPS: satellite estimates, not in-situ measurements
-- GLDAS: model assimilating heterogeneous observations
-
-**Temporal coverage:**
-- GLDAS: 3-hourly resolution
-- Very short-duration phenomena (gusts < 1h): potentially missed
-
-### 2.7.5 Recommendations to Mitigate Limitations
-
-1. **Systematic validation** by HR photo-interpretation
-2. **Multi-source cross-referencing** (SAR + optical + field)
-3. **Local context knowledge** (geology, urban planning, climatology)
-4. **Critical analysis of results** (false positives, false negatives)
-5. **Transparent communication of uncertainties** to end users
+> **Validation sample limitations:** This validation is based on **563 buildings** (355 damaged, 208 undamaged) over **1.57 km²** — a limited sample concentrated on a single geographic area and a single event. Conclusions are statistically coherent but cannot be generalised with certainty to other regions, building types or event types. Given additional time or funding, these analyses will be extended to a larger number of buildings, areas and cyclonic events.
 
 ---
 
-## 2.8 Improvement Perspectives
+## 3.1 What the tool produces — and what it does not
 
-### 2.8.1 Algorithmic Improvements
+The tool assigns each building a **radar change score (T-statistic)** measuring how much the Sentinel-1 signal has changed between the PRE and POST periods. This score is compared to a threshold to decide whether the building is classified as damaged.
 
-**SAR + Optical fusion:**
-- Integration of Sentinel-2 (optical) to reduce SAR ambiguities
-- Damage detection by NDVI change (vegetation)
+> **The tool detects radar changes, not structural damage per se.** A building under reconstruction, a nearby construction site, or dense vegetation moving in the wind can generate a false positive. Conversely, an inward collapse without surface material displacement may go undetected.
 
-**Machine Learning:**
-- Training supervised models (Random Forest, CNN) on annotated datasets
-- Automatic classification of damage types (collapse, cracking, etc.)
-
-**Advanced multi-temporal analysis:**
-- Tracking damage evolution over weeks/months
-- Detection of progressive damage (settlement, subsidence)
-
-### 2.8.2 New Data Source Integration
-
-**High-resolution SAR imagery:**
-- ICEYE (resolution < 1m)
-- Capella Space (sub-meter resolution)
-
-**LiDAR elevation data:**
-- Detection of elevation changes (collapses)
-- Precise 3D modeling
-
-**Social media and crowdsourcing:**
-- Geolocated tweets, Flickr photos
-- Rapid validation by local populations
-
-### 2.8.3 Mobile/Field Version Development
-
-**Mobile application:**
-- Display results on smartphone/tablet
-- Field data collection (photos, GPS)
-- Bidirectional synchronization (cloud ↔ field)
-
-**Offline mode:**
-- Pre-download maps and results
-- Use in areas without connectivity
+The physical principle underlying the T-statistic is illustrated in section [2.2.1](#221-physical-principle--backscatter-signal-as-a-damage-indicator): on a building pixel of Whitehouse, the VV backscatter drop from +8.7 dB to −1.1 dB (Δ = −10.2 dB) after Cyclone Melissa constitutes a statistically unambiguous signal that the PWTT method is designed to capture.
 
 ---
+
+## 3.2 Recommended parameters by POST time window
+
+Performance was evaluated over 9 POST windows (1 to 120 days) with a fixed PRE period of 180 days (28 Sentinel-1 images).
+
+![POST window optimisation — AUC, Kappa and distributions](docs/screenshots/fig1_tstat_optimisation_fenetres.png)
+
+| POST window | N POST images | AUC | Best κ | Recommended threshold | Use |
+|---|---|---|---|---|---|
+| **1d** | 1 | 0.639 | 0.238 | 1.9–2.0 | Emergency triage D+24h |
+| **6d** | 2 | 0.629 | 0.213 | 1.95 | Early triage |
+| **14d (optimal)** | 5 | 0.672 | 0.302 | 2.3–2.5 | **Optimal analysis** |
+| **28d** | 7 | 0.655 | 0.238 | 2.5 | Still reliable |
+| **45d** | 9 | 0.661 | 0.267 | 2.5 | Boundary of reliable zone |
+| **80d** | 15 | 0.632 | 0.217 | — | Notable decline |
+| **>80d** | >15 | <0.60 | <0.15 | — | Not recommended |
+
+![T-stat distribution by POST window — Ridge plot](docs/screenshots/fig2_ridge_distributions.png)
+
+> **Practical rule:** Reconstruction progressively erases the damage signal. Beyond 15 POST images (~80 days), results become unreliable. Kappa drops to 0.095 at 120 days, indicating the classification is no better than random chance.
+
+---
+
+## 3.3 Guide by use case
+
+### Use case 1 — Emergency triage (D+24h to D+48h)
+
+**Context:** First hours after impact, before high-resolution optical imagery is available.
+
+**Recommended parameters:** Post interval: `1` to `2` days | T-threshold: `1.9`
+
+![Distribution, metrics and ROC — POST 1d window](docs/screenshots/fig_window_1j.png)
+
+**Expected performance:**
+- AUC ≈ 0.639 | Kappa ≈ 0.238
+- ~60% of damaged buildings detected
+- ~40% false alarms on undamaged buildings
+
+> The tool reduces the inspection area by approximately half while retaining the majority of severe cases. With only one Sentinel-1 pass available, results depend entirely on the quality of that single image. If it is noisy (residual wind, high humidity), there is no fallback image.
+
+**Recommendations:**
+- Use to direct initial field teams and drone reconnaissance
+- Prioritise zones classified as **Very High** (T ≥ T_threshold + 2)
+- Do not use as the sole criterion for critical resource allocation
+- Re-run the analysis at 14 days to confirm and refine
+
+---
+
+### Use case 2 — Operational mapping (D+14 to D+45)
+
+**Context:** Planning of detailed assessment missions, support for photo-interpretation.
+
+**Recommended parameters:** Post interval: `14` days (optimal) to `45` days | T-threshold: `2.4` (default)
+
+![Distribution, metrics and ROC — POST 14d window](docs/screenshots/fig_window_14j.png)
+
+**Expected performance:**
+- AUC ≈ 0.668–0.672 | Kappa ≈ 0.267–0.302
+- ~62% of damaged buildings detected
+- ~38% false alarms on undamaged buildings
+
+> This is the optimal window. 5 POST images are averaged and absorb noise from any particularly noisy acquisition. The separation between damaged and undamaged buildings is the best observed across all tested windows.
+
+**Recommendations:**
+- Preferred use for post-cyclone damage mapping
+- Cross-reference with confidence levels to prioritise inspections
+- Overlay on HR optical imagery for photo-interpretation
+- Do not use beyond 45 days without re-evaluating results
+
+---
+
+### Use case 3 — Assessment report and affected population estimation
+
+**Context:** Production of statistics for emergency reports.
+
+**Recommended parameters:** Post interval: `14` days | T-threshold: `2.4` | Activate **Weather data**
+
+```
+Correct formulation:
+"In area X, Sentinel-1 analysis (POST 14d, T-threshold=2.4) identifies
+N buildings as potentially damaged (of which X% Very High confidence).
+This estimate requires validation by photo-interpretation. Uncertainty margin:
+±30-40% (AUC=0.67, validated on 563 buildings / 1.57 km², Zone 1 Whitehouse,
+Cyclone Melissa 2025)."
+
+To avoid:
+"N buildings are damaged."
+```
+
+**Recommendations:**
+- Always indicate the POST interval used and the T threshold
+- Distinguish Very High / High / Moderate in published statistics
+- Mention the uncertainty margin and the validation sample size
+- Do not present results as a certified assessment
+
+---
+
+### Use case 4 — Field and drone mission support
+
+**Context:** Targeting areas to inspect as a priority.
+
+**Recommended parameters:** Post interval: `6` to `14` days | T-threshold: `1.9` (recall) or `2.4` (precision)
+
+1. Export `Buildings_Damage.geojson` from the application
+2. Load into a mobile GIS (QField, ArcGIS Field Maps)
+3. Use the `confidence` field to prioritise:
+   - **Very High** — Absolute priority
+   - **High** — As soon as possible
+   - **Moderate** — If resources allow
+
+**Recommendations:**
+- Use the `T_statistic` field to manually refine prioritisation
+- Document field results to improve future calibration
+
+---
+
+## 3.4 Interpreting confidence levels
+
+| Level | Condition | Field interpretation | Expected true positive rate* |
+|---|---|---|---|
+| **Moderate** | T_threshold ≤ T < T_threshold + 1 | Moderate change, validation needed | ~55–65% |
+| **High** | T_threshold + 1 ≤ T < T_threshold + 2 | High change, strong probability of damage | ~65–75% |
+| **Very High** | T ≥ T_threshold + 2 | Very high change, near-certain damage | ~75–85% |
+
+*Estimates derived from Zone 1 Whitehouse validation (563 buildings, Cyclone Melissa 2025).
+
+---
+
+## 3.5 Detection method comparison
+
+Three methods were evaluated on Zone 1 data (POST 14d, N=479 buildings):
+
+![Comparison T-statistic MEAN vs Log-Ratio vs Wishart chi²](docs/screenshots/fig3_comparaison_3methodes.png)
+
+| Method | AUC | Best κ | Δμ (Damaged − Undamaged) | Verdict |
+|---|---|---|---|---|
+| **T-statistic MEAN** | **0.689** | **0.322** | **+0.262** | Recommended |
+| Log-Ratio (dB) | 0.514 | 0.056 | +0.031 | Insufficient signal |
+| Wishart chi² | 0.524 | 0.084 | −0.152 | Inverted signal |
+
+The T-stat normalises the post-event change by the natural variability of each pixel during the PRE period. In tropical areas, this normalisation is essential. Log-Ratio and Wishart chi² work on raw values drowned in SAR speckle noise — their performance is equivalent to random chance on this GRD dataset.
+
+---
+
+## 3.6 PRE period selection — recommendations
+
+The choice of Pre-date is critical for analysis quality. Several pitfalls should be avoided:
+
+**Avoid wet or disturbed periods.** If the Pre-date is chosen during heavy rainfall, some areas may already be flooded or vegetation particularly water-saturated. These conditions will be reflected in the PRE images and the PRE→POST change will be underestimated, reducing detection capability.
+
+**Choose a Pre-date distant from the event.** A Pre-date too close to the impact may include precursor phenomena (rising water before the cyclone, vegetation already flattened by wind). For Whitehouse, the chosen Pre-date is 20 November 2024 (one year before impact) — the 28 PRE images cover May–November 2024.
+
+**Use the Weather data module to identify dry periods.** The daily precipitation chart allows verifying that the selected PRE period corresponds to a dry phase, without major hydrological events.
+
+---
+
+## 3.7 Effect of PRE period — 2024 vs 2025 comparison
+
+A complementary analysis was conducted to evaluate the impact of PRE period choice on performance. Two configurations were compared on Zone 1 Whitehouse (POST 14d, N=563 buildings):
+- **PRE 2024-11-20**: reference period one year before the event (reference configuration)
+- **PRE 2025-10-20**: reference period 9 days before the impact
+
+![Performance comparison by PRE period — Zone 1, POST 14d](docs/screenshots/fig_window_14jpre2025_vs_14jpre2024.png)
+
+| Metric | PRE 2024-11-20 | PRE 2025-10-20 | Best |
+|---|---|---|---|
+| **AUC** | 0.665 | **0.674** | 2025 |
+| **Best κ** | 0.278 | **0.310** | 2025 |
+| **Best F1** | 0.776 | **0.782** | 2025 |
+| Best κ threshold | 2.330 | 2.530 | — |
+| Precision (@ κ opt.) | 0.711 | **0.758** | 2025 |
+| Recall (@ κ opt.) | **0.839** | 0.699 | 2024 |
+| Δμ | +0.215 | **+0.236** | 2025 |
+
+In this specific case, the PRE 2025 period (closer to the event) yields better overall performance (AUC, Kappa, Precision), likely because seasonal conditions are more similar between the two compared periods. However, Recall is better with the PRE 2024 period, meaning more damaged buildings are detected. The choice therefore depends on the operational objective: priority to precision (PRE 2025) or priority to recall/miss nothing (PRE 2024).
+
+> This result illustrates that there is no universal rule for PRE period selection. Using the Weather data module to identify periods of similar conditions between PRE and POST is a generally good practice.
+
+---
+
+## 3.8 Limitations specific to the Caribbean/tropical context
+
+**Identified limiting factors:**
+- **Dense tropical vegetation**: high SAR background noise, diluted damage signal
+- **Small buildings** (< 100 m²): radar signature limited to a few pixels
+- **Rapid reconstruction**: damage signal active for only 14–45 days
+- **Post-cyclone humidity**: can modify backscatter independently of damage
+- **Quality of global building databases**: significant geometric discrepancies with ground reality
+
+> **Regarding generalisation:** These results were obtained on **563 buildings over 1.57 km²** during a single event. For areas with predominantly concrete buildings, dense urban fabric, or low-vegetation regions, performance could differ significantly. Complementary validations on other sites and events are needed — and planned if funding or collaborations allow.
+
+---
+
+## 3.9 T-threshold — adjustment guide
+
+The `T-threshold` parameter (adjustable in Settings, default: **2.4**) is the main lever for adapting the tool's sensitivity.
+
+| Objective | Recommended threshold | Effect |
+|---|---|---|
+| Miss no damaged building | **1.8 – 2.0** | More detections, more false alarms |
+| Balance detection / precision | **2.3 – 2.5** | Default value, validated on Zone 1 |
+| Minimise unnecessary field movements | **2.8 – 3.0** | Fewer detections, fewer false alarms |
+| Absolute emergency D+1 | **1.9** | Maximum recall priority |
+
+The per-window figures below show how Kappa, F1, Precision and Recall evolve with the chosen threshold:
+
+| Window | Detailed figure (distribution + metrics + ROC) |
+|---|---|
+| POST 1d (1 img) | ![](docs/screenshots/fig_window_1j.png) |
+| POST 10d (3 img) | ![](docs/screenshots/fig_window_10j.png) |
+| POST 14d (5 img) — optimal | ![](docs/screenshots/fig_window_14j.png) |
+| POST 21d (5 img) | ![](docs/screenshots/fig_window_21j.png) |
+| POST 28d (7 img) | ![](docs/screenshots/fig_window_28j.png) |
+| POST 45d (9 img) | ![](docs/screenshots/fig_window_45j.png) |
+| POST 80d (15 img) | ![](docs/screenshots/fig_window_80j.png) |
+| POST 100d (18 img) | ![](docs/screenshots/fig_window_100j.png) |
+| POST 120d (21 img) | ![](docs/screenshots/fig_window_120j.png) |
+
+> In the absence of local validation data, use the default value of **2.4**.
+
+---
+
+## 3.10 Frequently asked questions on interpretation
+
+**Q: My analysis shows 80% of buildings damaged. Is this realistic?**
+Probably not. First check the number of available POST images and increase the T-threshold. Such a high rate usually indicates a threshold that is too low or a POST period that is too long with reconstruction already underway.
+
+**Q: The analysis shows damage in areas clearly intact on optical imagery. What to do?**
+These false positives may be caused by clearance work, vegetation changes or different weather conditions between PRE and POST acquisitions. Always cross-reference with available optical imagery before reporting statistics.
+
+**Q: No building is detected even though the area is clearly affected. Why?**
+Possible causes: noisy POST image, POST interval too short (< 6d), buildings too small (< 100 m²), or interior collapse without external modification visible to radar. Increase the POST interval and lower the T-threshold.
+
+**Q: Are these results valid for other cyclones or regions?**
+With caution. The validation only covers **563 buildings over 1.57 km²** during a single event (Cyclone Melissa, Jamaica, 2025). Complementary validations are planned if funding or collaborations allow.
+
+**Q: How do I choose the best PRE period?**
+Use the Weather data module to identify dry periods without major hydrological events. Prefer a period distant from the event (several months to one year) but within the same season for similar vegetation conditions.
+
 
 ---
 
 <a name="data-sources"></a>
-# 3. Data Sources
+# 4. Data Sources
 
-## 3.1 Satellite Data
+## 4.1 Satellite data
 
-### 3.1.1 Sentinel-1 SAR
+### 4.1.1 Sentinel-1 SAR
 
-**Description:** Constellation of C-band radar satellites (5.405 GHz) from the European Space Agency (ESA).
-
-**Technical specifications:**
-- **Satellites:** Sentinel-1A (launched 2014), Sentinel-1B (launched 2016, out of service since 2021), Sentinel-1C (planned 2024)
-- **Acquisition mode used:** Interferometric Wide Swath (IW)
-- **Polarization:** Dual-pol (VV+VH)
-- **Spatial resolution:** 10m × 10m (GRD)
-- **Swath:** 250 km
-- **Revisit period:** ~6 days (full constellation)
-- **Orbits:** Ascending and descending
-
-**Product used:**
-- **Type:** GRD (Ground Range Detected)
-- **Processing level:** Level-1
-- **GEE Collection:** `COPERNICUS/S1_GRD` and `COPERNICUS/S1_GRD_FLOAT`
-
-**Reference:**
-- ESA Sentinel Online: [https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-1](https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-1)
-
----
-
-### 3.1.2 CHIRPS (Climate Hazards Group InfraRed Precipitation with Station data)
-
-**Description:** Daily precipitation data at quasi-global resolution, combining infrared satellite observations and ground stations.
+**Description:** C-band radar satellite constellation (5.405 GHz) by ESA.
 
 **Specifications:**
-- **Spatial resolution:** 0.05° (~5.5 km)
-- **Temporal resolution:** Daily
-- **Temporal coverage:** 1981-present
-- **Spatial coverage:** 50°N - 50°S
-- **Unit:** mm/day
+- Satellites: Sentinel-1A (launched 2014), Sentinel-1C (2024)
+- Acquisition mode: IW (Interferometric Wide Swath)
+- Polarisation: Dual-pol (VV+VH)
+- Spatial resolution: 10m × 10m (GRD)
+- Swath: 250 km
+- Revisit period: ~6 days
+- GEE collection: `COPERNICUS/S1_GRD` and `COPERNICUS/S1_GRD_FLOAT`
 
-**GEE Collection:** `UCSB-CHG/CHIRPS/DAILY`
-
-**Reference:**
-- Funk, C., Peterson, P., Landsfeld, M., et al. (2015). The climate hazards infrared precipitation with stations—a new environmental record for monitoring extremes. *Scientific Data*, 2, 150066. [https://doi.org/10.1038/sdata.2015.66](https://doi.org/10.1038/sdata.2015.66)
-- Official website: [https://www.chc.ucsb.edu/data/chirps](https://www.chc.ucsb.edu/data/chirps)
+**Reference:** ESA Sentinel Online: [https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-1](https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-1)
 
 ---
 
-### 3.1.3 GLDAS (Global Land Data Assimilation System)
+### 4.1.2 CHIRPS
 
-**Description:** Land data assimilation system providing meteorological and hydrological variables at global scale.
+**Description:** Daily precipitation combining satellite infrared and ground stations. Resolution: 0.05° (~5.5 km). GEE collection: `UCSB-CHG/CHIRPS/DAILY`
 
-**Version used:** GLDAS-2.1 NOAH
-
-**Specifications:**
-- **Spatial resolution:** 0.25° (~27.8 km)
-- **Temporal resolution:** 3-hourly
-- **Variables used:**
-  - `Wind_f_inst`: Instantaneous wind speed (m/s)
-  - `Psurf_f_inst`: Instantaneous surface pressure (Pa)
-- **Temporal coverage:** 2000-present
-
-**GEE Collection:** `NASA/GLDAS/V021/NOAH/G025/T3H`
-
-**Reference:**
-- Rodell, M., Houser, P. R., Jambor, U., et al. (2004). The Global Land Data Assimilation System. *Bulletin of the American Meteorological Society*, 85(3), 381-394. [https://doi.org/10.1175/BAMS-85-3-381](https://doi.org/10.1175/BAMS-85-3-381)
+**Reference:** Funk, C., et al. (2015). *Scientific Data*, 2, 150066. [https://doi.org/10.1038/sdata.2015.66](https://doi.org/10.1038/sdata.2015.66)
 
 ---
 
-## 3.2 Digital Elevation Models (DEM)
+### 4.1.3 GLDAS NOAH v2.1
 
-### 3.2.1 NASADEM
+**Description:** Global meteorological variables (wind, pressure). Resolution: 0.25° (~27.8 km), 3-hourly. GEE collection: `NASA/GLDAS/V021/NOAH/G025/T3H`
 
-**Description:** Global digital elevation model derived from SRTM mission, reprocessed by NASA for improved accuracy.
-
-**Specifications:**
-- **Spatial resolution:** 1 arc-second (~30m)
-- **Spatial coverage:** 60°N - 56°S
-- **Vertical accuracy:** ±9m (90% confidence)
-- **Reference year:** 2000 (SRTM acquisition)
-
-**GEE Collection:** `NASA/NASADEM_HGT/001`
-
-**Reference:**
-- NASA JPL (2020). NASADEM Merged DEM Global 1 arc second. [https://doi.org/10.5067/MEaSUREs/NASADEM/NASADEM_HGT.001](https://doi.org/10.5067/MEaSUREs/NASADEM/NASADEM_HGT.001)
+**Reference:** Rodell, M., et al. (2004). *Bulletin of the American Meteorological Society*, 85(3), 381–394. [https://doi.org/10.1175/BAMS-85-3-381](https://doi.org/10.1175/BAMS-85-3-381)
 
 ---
 
-### 3.2.2 SRTM (Shuttle Radar Topography Mission)
+## 4.2 Digital Elevation Models
 
-**Description:** Global DEM acquired by SRTM space mission in 2000.
-
-**Specifications:**
-- **Spatial resolution:** 1 arc-second (~30m)
-- **Spatial coverage:** 60°N - 56°S
-- **Vertical accuracy:** ±16m (90% confidence)
-
-**GEE Collection:** `USGS/SRTMGL1_003`
-
-**Reference:**
-- Farr, T. G., Rosen, P. A., Caro, E., et al. (2007). The Shuttle Radar Topography Mission. *Reviews of Geophysics*, 45(2). [https://doi.org/10.1029/2005RG000183](https://doi.org/10.1029/2005RG000183)
+| Source | Resolution | Coverage | GEE Collection |
+|--------|-----------|---------|----------------|
+| NASADEM (recommended) | 30m | 60°N–56°S | `NASA/NASADEM_HGT/001` |
+| SRTM | 30m | 60°N–56°S | `USGS/SRTMGL1_003` |
+| ALOS World 3D v3.2 | 30m | 82°N–82°S | `JAXA/ALOS/AW3D30/V3_2` |
+| ASTER GDEM v3 | 30m | 83°N–83°S | `NASA/ASTER_GED/AG100_003` |
 
 ---
 
-### 3.2.3 ALOS World 3D
+## 4.3 Land cover data
 
-**Description:** Global DEM based on Japanese ALOS PRISM satellite data.
+**ESA WorldCover v200 (2021)** — 10m, 11 classes. GEE collection: `ESA/WorldCover/v200`
 
-**Specifications:**
-- **Spatial resolution:** 1 arc-second (~30m)
-- **Spatial coverage:** Global (82°N - 82°S)
-- **Vertical accuracy:** ±5m (flat areas), ±7m (mountainous areas)
-- **Version:** 3.2
-
-**GEE Collection:** `JAXA/ALOS/AW3D30/V3_2`
-
-**Reference:**
-- JAXA (2021). ALOS Global Digital Surface Model "ALOS World 3D-30m" (AW3D30). [https://www.eorc.jaxa.jp/ALOS/en/dataset/aw3d30/aw3d30_e.htm](https://www.eorc.jaxa.jp/ALOS/en/dataset/aw3d30/aw3d30_e.htm)
+**JRC Global Surface Water** — 30m, monthly 1984–2022. GEE collection: `JRC/GSW1_4/MonthlyHistory`
 
 ---
 
-### 3.2.4 ASTER GDEM
+## 4.4 Population data
 
-**Description:** Global DEM from ASTER (Advanced Spaceborne Thermal Emission and Reflection Radiometer) radiometer.
+**WorldPop** — 100m, Random Forest estimates. GEE collection: `WorldPop/GP/100m/pop`
 
-**Specifications:**
-- **Spatial resolution:** 1 arc-second (~30m)
-- **Spatial coverage:** 83°N - 83°S
-- **Vertical accuracy:** ±17m (95% confidence)
-- **Version:** 3
-
-**GEE Collection:** `NASA/ASTER_GED/AG100_003`
-
-**Reference:**
-- NASA/METI/AIST/Japan Spacesystems, U.S./Japan ASTER Science Team (2019). ASTER Global Digital Elevation Model V003. [https://doi.org/10.5067/ASTER/ASTGTM.003](https://doi.org/10.5067/ASTER/ASTGTM.003)
+**WSF 3D — Building Height** — 90m, building height. Download: [https://download.geoservice.dlr.de/WSF3D/files/](https://download.geoservice.dlr.de/WSF3D/files/)
 
 ---
 
-## 3.3 Land Cover Data
+## 4.5 Vector data
 
-### 3.3.1 ESA WorldCover
+**Google Open Buildings v3** — ~1.8 billion buildings. GEE collection: `GOOGLE/Research/open-buildings/v3/polygons`
 
-**Description:** 10m resolution land cover map based on Sentinel-1 and Sentinel-2.
+**Microsoft Building Footprints (VIDA Combined)** — >1 billion. GEE access: `projects/sat-io/open-datasets/VIDA_COMBINED/[ISO_CODE]`
 
-**Specifications:**
-- **Spatial resolution:** 10m
-- **Reference year:** 2021
-- **Nomenclature:** 11 classes (Tree cover, Shrubland, Grassland, Cropland, Built-up, Bare/sparse vegetation, Snow/ice, Permanent water bodies, Herbaceous wetland, Mangroves, Moss/lichen)
-- **Global accuracy:** 74.4%
+**GRIP4** — Global road network. GEE access: `projects/sat-io/open-datasets/GRIP4/[REGION]`
 
-**GEE Collection:** `ESA/WorldCover/v200`
+**OurAirports** — Global airport database. Source: [https://ourairports.com/data/](https://ourairports.com/data/)
 
-**Reference:**
-- Zanaga, D., Van De Kerchove, R., Daems, D., et al. (2022). ESA WorldCover 10 m 2021 v200. [https://doi.org/10.5281/zenodo.7254221](https://doi.org/10.5281/zenodo.7254221)
+**Upply Seaports** — ~9,000 seaports. CC BY 4.0 licence. Mandatory attribution: "Data: Upply (upply.com)"
 
----
+**OpenStreetMap** — ODbL licence. Mandatory attribution: "© OpenStreetMap contributors"
 
-### 3.3.2 JRC Global Surface Water
-
-**Description:** Monthly and annual maps of surface water presence based on 38 years of Landsat imagery.
-
-**Specifications:**
-- **Spatial resolution:** 30m
-- **Temporal coverage:** 1984-2022
-- **Temporal resolution:** Monthly
-- **Product used:** Monthly History (water occurrence per month)
-
-**GEE Collection:** `JRC/GSW1_4/MonthlyHistory`
-
-**Reference:**
-- Pekel, J.-F., Cottam, A., Gorelick, N., & Belward, A. S. (2016). High-resolution mapping of global surface water and its long-term changes. *Nature*, 540, 418-422. [https://doi.org/10.1038/nature20584](https://doi.org/10.1038/nature20584)
+**SoilGrids ISRIC** — Clay content, 250m. GEE collection: `projects/soilgrids-isric/clay_mean`
 
 ---
 
-## 3.4 Population Data
+## 4.6 Validation data (Whitehouse example)
 
-### 3.4.1 WorldPop
+**UNOSAT** — Post-Cyclone Melissa damage assessment, Zone 1 Whitehouse, Jamaica. [https://unosat.org/products/4215](https://unosat.org/products/4215)
 
-**Description:** Disaggregated population estimates at high spatial resolution based on censuses and auxiliary data.
+**NOAA Aerial Imagery** — Very high resolution aerial imagery (15 cm, Digital Sensor System DSS version 6), acquired 31 October 2025 over Whitehouse, Jamaica.
 
-**Specifications:**
-- **Spatial resolution:** 100m
-- **Unit:** Number of inhabitants per pixel
-- **Methodology:** Random Forest on covariates (built-up, land use, accessibility, etc.)
-- **Update:** Annual
-
-**GEE Collection:** `WorldPop/GP/100m/pop`
-
-**Reference:**
-- Tatem, A. J. (2017). WorldPop, open data for spatial demography. *Scientific Data*, 4, 170004. [https://doi.org/10.1038/sdata.2017.4](https://doi.org/10.1038/sdata.2017.4)
-- Official website: [https://www.worldpop.org/](https://www.worldpop.org/)
-
----
-
-### 3.4.2 WSF 3D - Building Height
-
-**Description:** Global map of building heights at 90m resolution derived from TanDEM-X SAR and Sentinel-2 optical data.
-
-**Specifications:**
-- **Spatial resolution:** 90m (3 arc-seconds)
-- **Unit:** Meters (building height)
-- **Temporal coverage:** 2015-2017
-- **Accuracy:** RMSE ~6m for buildings > 15m height
-
-**Source:** DLR (German Aerospace Center)
-
-**Download:** [https://download.geoservice.dlr.de/WSF3D/files/](https://download.geoservice.dlr.de/WSF3D/files/)
-
-**Reference:**
-- Esch, T., Brzoska, E., Dech, S., et al. (2022). World Settlement Footprint 3D - A first three-dimensional survey of the global building stock. *Remote Sensing of Environment*, 270, 112877. [https://doi.org/10.1016/j.rse.2021.112877](https://doi.org/10.1016/j.rse.2021.112877)
-
----
-
-## 3.5 Vector Data
-
-### 3.5.1 Google Open Buildings v3
-
-**Description:** Building footprint database detected by machine learning from satellite imagery.
-
-**Specifications:**
-- **Coverage:** Africa, South Asia, Southeast Asia, Latin America (excluding USA, Canada, Europe)
-- **Number of buildings:** ~1.8 billion
-- **Source resolution:** 50 cm (Maxar imagery)
-- **Methodology:** Detection by convolutional neural networks (U-Net)
-- **Main attribute:** `confidence` (confidence score 0-1)
-
-**GEE Collection:** `GOOGLE/Research/open-buildings/v3/polygons`
-
-**Reference:**
-- Google Research (2023). Open Buildings V3. [https://sites.research.google/open-buildings/](https://sites.research.google/open-buildings/)
-
----
-
-### 3.5.2 Microsoft Building Footprints (VIDA Combined)
-
-**Description:** Building footprints extracted by deep learning from Bing aerial imagery.
-
-**Specifications:**
-- **Coverage:** Global (by country)
-- **Number of buildings:** >1 billion
-- **Methodology:** ResNet-based segmentation
-- **Format:** GeoJSON
-
-**Access via VIDA Combined:**
-- **Collection:** Fusion Google Open Buildings + Microsoft Buildings
-- **Source:** SAT-IO (Samapriya Roy)
-- **GEE Access:** `projects/sat-io/open-datasets/VIDA_COMBINED/[ISO_CODE]`
-
-**Reference:**
-- Microsoft (2023). GlobalMLBuildingFootprints. [https://github.com/microsoft/GlobalMLBuildingFootprints](https://github.com/microsoft/GlobalMLBuildingFootprints)
-- Gonzales, J. J. (2023). Building-level comparison of Microsoft and Google open building footprints datasets. *GIScience 2023*.
-
----
-
-### 3.5.3 GRIP4 (Global Roads Inventory Project)
-
-**Description:** Global road network inventory combining OpenStreetMap data and national sources.
-
-**Specifications:**
-- **Coverage:** Global (by region)
-- **Road types:** Highways, national roads, regional roads
-- **Attributes:** Type, surface, number of lanes
-- **Available regions:** 
-  - North-America
-  - Central-South-America
-  - Europe
-  - Africa
-  - Middle-East-Central-Asia
-  - South-East-Asia
-  - Oceania
-
-**GEE Access:** `projects/sat-io/open-datasets/GRIP4/[REGION]`
-
-**Reference:**
-- Meijer, J. R., Huijbregts, M. A. J., Schotten, K. C. G. J., & Schipper, A. M. (2018). Global patterns of current and future road infrastructure. *Environmental Research Letters*, 13(6), 064006. [https://doi.org/10.1088/1748-9326/aabd42](https://doi.org/10.1088/1748-9326/aabd42)
-
----
-
-### 3.5.4 OurAirports
-
-**Description:** Global database of airports and heliports.
-
-**Specifications:**
-- **Coverage:** Global
-- **Types:** Large/Medium/Small airports, Heliports, Closed airports
-- **Attributes:** Type, name, ICAO/IATA code, coordinates, elevation
-- **Update:** Contributive (crowdsourced)
-
-**Asset used:** `projects/rapiddamagedetection/assets/ourairports`
-
-**Original source:** [https://ourairports.com/data/](https://ourairports.com/data/)
-
-**License:** Public Domain (data accessible via GitHub)
-
-**Reference:**
-- OurAirports (2024). Airport data. GitHub repository: [https://github.com/davidmegginson/ourairports-data](https://github.com/davidmegginson/ourairports-data)
-
----
-
-### 3.5.5 Upply Seaports Database
-
-**Description:** Global database of commercial seaports.
-
-**Specifications:**
-- **Coverage:** Global
-- **Number of ports:** ~9000
-- **Attributes:** Name, country, coordinates, port type
-- **Update:** Regular
-
-**Asset used:** `projects/rapiddamagedetection/assets/upply-seaports`
-
-**Original source:** [https://opendata.upply.com/seaports](https://opendata.upply.com/seaports)
-
-**License:** Creative Commons Attribution 4.0 (CC BY 4.0)
-
-**Terms of use:** Mandatory attribution: "Source: Upply (upply.com)"
-
-**Reference:**
-- Upply (2024). Sea Port Database (Open Data). [https://opendata.upply.com/seaports](https://opendata.upply.com/seaports)
-
----
-
-### 3.5.6 Health Sites (Humanitarian OpenStreetMap)
-
-**Description:** Health facility locations extracted from OpenStreetMap.
-
-**Specifications:**
-- **Coverage:** Variable according to OSM contributions
-- **Types:** Hospitals, clinics, health centers
-- **Geometry:** Points (nodes) and polygons (ways)
-
-**GEE Collections:**
-- `projects/sat-io/open-datasets/health-site-node` (points)
-- `projects/sat-io/open-datasets/health-site-way` (polygons)
-
-**Reference:**
-- Humanitarian OpenStreetMap Team (2024). Health facilities. Accessible via SAT-IO.
-
----
-
-### 3.5.7 Custom Assets - Jamaica Whitehouse Example
-
-**Description:** Local data extracted from OpenStreetMap for Whitehouse area, Jamaica (Hurricane Melissa, October 2025).
-
-**Extraction date:** March 4, 2026
-
-**Extraction method:** Overpass API (OpenStreetMap)
-
-**Available assets:**
-- `projects/rapiddamagedetection/assets/examples/jamaica_whitehouse_Melissa_28oct2025/AOI_whitehouse`
-- `projects/rapiddamagedetection/assets/examples/jamaica_whitehouse_Melissa_28oct2025/Building_OSM_whitehouse`
-- `projects/rapiddamagedetection/assets/examples/jamaica_whitehouse_Melissa_28oct2025/Road_OSM_whitehouse`
-
-**License:** OpenStreetMap Database License (ODbL)
-
-**Attribution:** © OpenStreetMap contributors
-
----
-
-## 3.6 Soil Data
-
-### 3.6.1 SoilGrids - Clay Content
-
-**Description:** Global soil property maps at 250m resolution.
-
-**Variable used:** Clay content (0-5 cm depth)
-
-**Specifications:**
-- **Spatial resolution:** 250m
-- **Depth:** 0-5 cm
-- **Unit:** g/kg (grams of clay per kilogram of soil)
-- **Methodology:** Machine learning on >150,000 soil profiles
-
-**GEE Collection:** `projects/soilgrids-isric/clay_mean` (band `clay_0-5cm_mean`)
-
-**Reference:**
-- Poggio, L., de Sousa, L. M., Batjes, N. H., et al. (2021). SoilGrids 2.0: producing soil information for the globe with quantified spatial uncertainty. *SOIL*, 7, 217-240. [https://doi.org/10.5194/soil-7-217-2021](https://doi.org/10.5194/soil-7-217-2021)
-- Official website: [https://www.isric.org/explore/soilgrids](https://www.isric.org/explore/soilgrids)
+GEE assets Whitehouse: `projects/rapiddamagedetection/assets/examples/jamaica_whitehouse_Melissa_28oct2025/`
 
 ---
 
 <a name="bibliography"></a>
-# 4. Bibliography
+# 5. Bibliography
 
-## 4.1 Scientific Articles - Methodology
-
-### 4.1.1 Damage Detection
+## 5.1 Core methods
 
 **Ballinger, O. (2024).** Open access battle damage detection via pixel-wise t-test on Sentinel-1 imagery. *arXiv preprint*. [https://doi.org/10.48550/arXiv.2405.06323](https://doi.org/10.48550/arXiv.2405.06323)
+— Foundational paper for the PWTT method used for damage detection.
 
-> Foundational article for PWTT (Pixel-Wise T-Test) method used for damage detection. Describes statistical test applied pixel-by-pixel on Sentinel-1 time series to identify significant backscatter changes.
+**Ballinger, O. (2024).** PWTT: Pixel-Wise T-Test for battle damage detection [Source code]. GitHub. [https://github.com/oballinger/PWTT](https://github.com/oballinger/PWTT)
 
----
+**DeVries, B., Huang, C., Armston, J., et al. (2020).** Rapid and robust monitoring of flood events using Sentinel-1 and Landsat data on the Google Earth Engine. *Remote Sensing of Environment*, 240, 111664. [https://doi.org/10.1016/j.rse.2020.111664](https://doi.org/10.1016/j.rse.2020.111664)
+— s1flood algorithm used for the flood detection module.
 
-### 4.1.2 Flood Detection
+**DeVries, B. (2019).** s1flood: Rapid flood mapping with Sentinel-1 on Google Earth Engine [Source code]. GitHub. [https://github.com/bendv/s1flood](https://github.com/bendv/s1flood)
 
-**DeVries, B., Huang, C., Armston, J., Huang, W., Jones, J. W., & Lang, M. W. (2020).** Rapid and robust monitoring of flood events using Sentinel-1 and Landsat data on the Google Earth Engine. *Remote Sensing of Environment*, 240, 111664. [https://doi.org/10.1016/j.rse.2020.111664](https://doi.org/10.1016/j.rse.2020.111664)
+**Handwerger, A. L., Huang, M.-H., Jones, S. Y., et al. (2022).** Generating landslide density heatmaps for rapid detection using open-access satellite radar data in Google Earth Engine. *Natural Hazards and Earth System Sciences*, 22(3), 753–774. [https://doi.org/10.5194/nhess-22-753-2022](https://doi.org/10.5194/nhess-22-753-2022)
+— Landslide detection method using heatmaps.
 
-> Reference article for s1flood algorithm. Describes flood detection method by z-score applied to Sentinel-1 data, with permanent water masking and multi-temporal validation.
-
----
-
-### 4.1.3 Landslide Detection
-
-**Handwerger, A. L., Huang, M.-H., Jones, S. Y., Amatya, P., Kerner, H. R., & Kirschbaum, D. B. (2022).** Generating landslide density heatmaps for rapid detection using open-access satellite radar data in Google Earth Engine. *Natural Hazards and Earth System Sciences*, 22(3), 753-774. [https://doi.org/10.5194/nhess-22-753-2022](https://doi.org/10.5194/nhess-22-753-2022)
-
-> Method for creating landslide density heatmaps based on Sentinel-1 data. Approach through SAR change detection combined with temporal coherence analysis.
-
-**Kanani-Sadat, Y., Pradhan, B., Pirasteh, S., & Mansor, S. (2015).** Landslide susceptibility mapping using GIS-based statistical models and remote sensing data in tropical environment. *Scientific Reports*, 5, 9899. [https://doi.org/10.1038/srep09899](https://doi.org/10.1038/srep09899)
-
-> Landslide susceptibility model by multi-criteria analysis. Source of weights used for susceptibility factors (precipitation, slope, soil, aspect, curvature) via AHP (Analytical Hierarchy Process) method.
+**Kanani-Sadat, Y., Pradhan, B., Pirasteh, S., & Mansor, S. (2015).** Landslide susceptibility mapping using GIS-based statistical models. *Scientific Reports*, 5, 9899. [https://doi.org/10.1038/srep09899](https://doi.org/10.1038/srep09899)
+— Source of AHP weights for the landslide susceptibility model.
 
 ---
 
-### 4.1.4 Building Database Comparison
+## 5.2 SAR post-disaster analysis
 
-**Gonzales, J. J. (2023).** Building-level comparison of Microsoft and Google open building footprints datasets. In *GIScience 2023: 12th International Conference on Geographic Information Science* (LIPIcs, Vol. 277, Article 35). Schloss Dagstuhl – Leibniz-Zentrum für Informatik. [https://doi.org/10.4230/LIPIcs.GIScience.2023.35](https://doi.org/10.4230/LIPIcs.GIScience.2023.35)
+**Ge, P., Gokon, H., Meguro, K., & Koshimura, S. (2020).** Study on the intensity and coherence information of high-resolution ALOS-2 SAR images for rapid urban damage detection. *Remote Sensing*, 12(15), 2409. [https://doi.org/10.3390/rs12152409](https://doi.org/10.3390/rs12152409)
+— Classification of SAR methods into four families (intensity, coherence, polarimetry, integrated). Reference framework for this tool's approach.
 
-> Comparative analysis of Microsoft and Google Open Buildings databases. Geometric matching methodology and quality evaluation by completeness, positional accuracy, and over-completeness indicators. Inspiration for Python comparison script.
-
----
-
-## 4.2 Code References and Implementations
-
-### 4.2.1 PWTT - Damage Detection
-
-**Ballinger, O. (2024).** PWTT: Pixel-Wise T-Test for battle damage detection [Source code]. GitHub repository. [https://github.com/oballinger/PWTT](https://github.com/oballinger/PWTT)
-
-> Reference implementation of pixel-wise t-test in Python and JavaScript (Google Earth Engine). Source code adapted for this tool's Damage Detection module.
+**Barra, A., Reyes-Carmona, C., Mulas, J., et al. (2020).** SAR analysis for damage assessment: Cyclone Idai, Beira, Mozambique. *Remote Sensing*, 12(15), 2409. [https://doi.org/10.3390/rs12152409](https://doi.org/10.3390/rs12152409)
+— Illustration of Sentinel-1's value over optical imagery during Cyclone Idai (Beira, 2019): SAR data available 12h after impact, clear optical imagery only available 12 days later.
 
 ---
 
-### 4.2.2 s1flood - Flood Mapping
+## 5.3 SAR signal processing
 
-**DeVries, B. (2019).** s1flood: Rapid flood mapping with Sentinel-1 on Google Earth Engine [Source code]. GitHub repository. [https://github.com/bendv/s1flood](https://github.com/bendv/s1flood)
+**Lee, J.-S. (1980).** Digital image enhancement and noise filtering by use of local statistics. *IEEE Transactions on Pattern Analysis and Machine Intelligence*, PAMI-2(2), 165–168. [https://doi.org/10.1109/TPAMI.1980.4766994](https://doi.org/10.1109/TPAMI.1980.4766994)
+— Adaptive Lee filter for speckle reduction.
 
-> JavaScript Google Earth Engine script for rapid flood detection. Z-score algorithm and permanent water masking adapted for Flood Detection module.
-
----
-
-### 4.2.3 Landslide Heatmaps - Google Earth Engine
-
-**Huang, M.-H., & Handwerger, A. L. (2021).** Codes-for-Handwerger-et-al-2021-preprint: Generating landslide density heatmaps for rapid detection using open-access satellite radar data in Google Earth Engine [Source code]. GitHub repository. [https://github.com/MongHanHuang/Codes-for-Handwerger-et-al-2021-preprint](https://github.com/MongHanHuang/Codes-for-Handwerger-et-al-2021-preprint)
-
-> Google Earth Engine scripts for landslide heatmap generation. Inspiration for SAR detection approach and spatial aggregation.
+**Student (1908).** The probable error of a mean. *Biometrika*, 6(1), 1–25. [https://doi.org/10.1093/biomet/6.1.1](https://doi.org/10.1093/biomet/6.1.1)
+— Theoretical basis of the Student t-test.
 
 ---
 
-### 4.2.4 Building Comparison - Python/QGIS Script
+## 5.4 Building data quality
 
-**Gonzales, J. J. (2023).** Building-Level Comparison of Microsoft and Google Open Buildings [Supplemental code]. Oak Ridge National Laboratory.
+**Fan, H., Zipf, A., Fu, Q., & Neis, P. (2014).** Quality assessment for building footprints data on OpenStreetMap with a reference dataset. *International Journal of Geographical Information Science*, 28(10), 2244–2262.
 
-> Source code and methodology for geometric comparison of building databases. Inspiration for matching criteria (distance, overlap) and quality indicator calculation in Python QGIS script.
+**ISO 19157:2013.** Geographic information — Data quality. International Organization for Standardization.
 
----
+**Gonzales, J. J. (2023).** Building-level comparison of Microsoft and Google open building footprints datasets. *GIScience 2023*, LIPIcs, Vol. 277, Article 35. [https://doi.org/10.4230/LIPIcs.GIScience.2023.35](https://doi.org/10.4230/LIPIcs.GIScience.2023.35)
 
-## 4.3 Statistical Methods and Signal Processing
+**Abdi, A. M., et al. (2021).** Inferring the positional accuracy of OpenStreetMap data using machine learning. *Transactions in GIS*, 25(4).
 
-**Lee, J.-S. (1980).** Digital image enhancement and noise filtering by use of local statistics. *IEEE Transactions on Pattern Analysis and Machine Intelligence*, PAMI-2(2), 165-168. [https://doi.org/10.1109/TPAMI.1980.4766994](https://doi.org/10.1109/TPAMI.1980.4766994)
+**Maidaneh Abdi, I., et al. (2023).** A regression/classification model of spatial accuracy prediction for OpenStreetMap buildings. *ISPRS Annals of the Photogrammetry, Remote Sensing and Spatial Information Sciences*.
 
-> Adaptive Lee filter for speckle reduction in SAR images. Theoretical basis for Sentinel-1 data pre-processing.
+**Breiman, L. (2001).** Random Forests. *Machine Learning*, 45(1), 5–32. [https://doi.org/10.1023/A:1010933404324](https://doi.org/10.1023/A:1010933404324)
 
-**Student (1908).** The probable error of a mean. *Biometrika*, 6(1), 1-25. [https://doi.org/10.1093/biomet/6.1.1](https://doi.org/10.1093/biomet/6.1.1)
+**Dukai, B., et al. (2021).** A multi-source data integration approach for the assessment of building data quality. *International Journal of Digital Earth*.
 
-> Foundational article for Student's t-test. Theoretical basis for pixel-wise statistical test used in damage detection.
+**Gevaert, C. M., et al. (2024).** Auditing the quality of global building datasets in data-scarce regions. *Remote Sensing of Environment*, 305.
 
----
-
-## 4.4 Reference Books
-
-**Ulaby, F. T., & Long, D. G. (2014).** *Microwave Radar and Radiometric Remote Sensing*. University of Michigan Press. ISBN: 978-0-472-11935-6.
-
-> Reference book on radar remote sensing. Backscatter theory, roughness and moisture effects, SAR signature interpretation.
-
-**Richards, J. A. (2009).** *Remote Sensing with Imaging Radar*. Springer. ISBN: 978-3-642-02020-9.
-
-> Principles of radar imaging, acquisition geometry, speckle processing, natural disaster applications.
+**Florio, P., et al. (2023).** Hierarchical conflation of multi-source building footprints. *Transactions in GIS*, 27(4).
 
 ---
 
-## 4.5 Technical Documentation and User Guides
+## 5.5 Population and demography
 
-**ESA (2022).** Sentinel-1 SAR User Guide. European Space Agency. [https://sentinels.copernicus.eu/web/sentinel/user-guides/sentinel-1-sar](https://sentinels.copernicus.eu/web/sentinel/user-guides/sentinel-1-sar)
+**Tatem, A. J. (2017).** WorldPop, open data for spatial demography. *Scientific Data*, 4, 170004. [https://doi.org/10.1038/sdata.2017.4](https://doi.org/10.1038/sdata.2017.4)
 
-> Official Sentinel-1 user guide. Technical specifications, acquisition modes, processing levels, data access.
+**Esch, T., et al. (2022).** World Settlement Footprint 3D. *Remote Sensing of Environment*, 270, 112877. [https://doi.org/10.1016/j.rse.2021.112877](https://doi.org/10.1016/j.rse.2021.112877)
+
+---
+
+## 5.6 Data sources
+
+**Funk, C., et al. (2015).** The climate hazards infrared precipitation with stations. *Scientific Data*, 2, 150066. [https://doi.org/10.1038/sdata.2015.66](https://doi.org/10.1038/sdata.2015.66)
+
+**Rodell, M., et al. (2004).** The Global Land Data Assimilation System. *BAMS*, 85(3), 381–394. [https://doi.org/10.1175/BAMS-85-3-381](https://doi.org/10.1175/BAMS-85-3-381)
+
+**Pekel, J.-F., et al. (2016).** High-resolution mapping of global surface water. *Nature*, 540, 418–422. [https://doi.org/10.1038/nature20584](https://doi.org/10.1038/nature20584)
+
+**Zanaga, D., et al. (2022).** ESA WorldCover 10 m 2021 v200. [https://doi.org/10.5281/zenodo.7254221](https://doi.org/10.5281/zenodo.7254221)
+
+**Meijer, J. R., et al. (2018).** Global patterns of current and future road infrastructure. *Environmental Research Letters*, 13(6). [https://doi.org/10.1088/1748-9326/aabd42](https://doi.org/10.1088/1748-9326/aabd42)
 
 **Google Earth Engine Team (2024).** Google Earth Engine Documentation. [https://developers.google.com/earth-engine](https://developers.google.com/earth-engine)
 
-> Official Google Earth Engine documentation. JavaScript API, data collections, tutorials, code examples.
-
-**QGIS Development Team (2024).** QGIS User Guide. QGIS Project. [https://docs.qgis.org/](https://docs.qgis.org/)
-
-> Official QGIS documentation. Vector data processing, graphical modeling, Python API.
-
 ---
 
-<a name="license"></a>
-# 5. License and Contributions
+<a name="licence"></a>
+# 6. Licence and Contributions
 
-## 5.1 Project License
+## 6.1 Project licence
 
-This project is distributed under **MIT License**.
+This project is distributed under the **MIT licence**.
+
 ```
 MIT License
-
 Copyright (c) 2026 Fabrice Renoux
-
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
-
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
-
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 ```
 
----
+## 6.2 Third-party data licences
 
-## 5.2 Third-Party Data Licenses
-
-Use of this tool involves access to third-party data subject to their own licenses:
-
-| Data | License | Attribution required |
+| Data | Licence | Attribution required |
 |------|---------|---------------------|
-| Sentinel-1 | Copernicus Open Access Hub (free) | "Contains modified Copernicus Sentinel data [Year]" |
-| CHIRPS | Creative Commons (CC) | "CHIRPS data provided by UCSB Climate Hazards Center" |
-| GLDAS | NASA Open Data (free) | "Data: NASA GLDAS" |
+| Sentinel-1 | Copernicus Open Access | "Contains modified Copernicus Sentinel data [Year]" |
+| CHIRPS | Creative Commons | "CHIRPS data provided by UCSB Climate Hazards Center" |
+| GLDAS | NASA Open Data | "Data: NASA GLDAS" |
 | NASADEM, SRTM, ASTER | NASA/USGS Open Data | "Data: NASA/USGS" |
 | ESA WorldCover | ESA Open Data | "Contains ESA WorldCover data [Year]" |
 | JRC Global Surface Water | European Commission Open Data | "Data: EC JRC" |
-| WorldPop | Creative Commons Attribution 4.0 (CC BY 4.0) | "Data: WorldPop (www.worldpop.org)" |
-| Google Open Buildings | Creative Commons Attribution 4.0 (CC BY 4.0) | "Data: Google Open Buildings" |
-| Microsoft Buildings | Open Data Commons Open Database License (ODbL) | "Data: Microsoft" |
-| GRIP4 | Creative Commons Attribution 4.0 (CC BY 4.0) | "Data: GRIP4 (Meijer et al., 2018)" |
-| OurAirports | Public Domain | None (optional: "Data: OurAirports") |
-| Upply Seaports | Creative Commons Attribution 4.0 (CC BY 4.0) | "Data: Upply (upply.com)" - MANDATORY |
-| OpenStreetMap | Open Database License (ODbL) | "© OpenStreetMap contributors" - MANDATORY |
-| SoilGrids | Creative Commons Attribution 4.0 (CC BY 4.0) | "Data: ISRIC SoilGrids" |
+| WorldPop | CC BY 4.0 | "Data: WorldPop (www.worldpop.org)" |
+| Google Open Buildings | CC BY 4.0 | "Data: Google Open Buildings" |
+| Microsoft Buildings | ODbL | "Data: Microsoft" |
+| GRIP4 | CC BY 4.0 | "Data: GRIP4 (Meijer et al., 2018)" |
+| Upply Seaports | CC BY 4.0 | "Data: Upply (upply.com)" — MANDATORY |
+| OpenStreetMap | ODbL | "© OpenStreetMap contributors" — MANDATORY |
+| SoilGrids | CC BY 4.0 | "Data: ISRIC SoilGrids" |
 
-**Recommended attribution mentions in publications:**
-```
-This work uses Sentinel-1 data (ESA Copernicus), CHIRPS (UCSB CHG),
-GLDAS (NASA), Google Open Buildings, Microsoft Building Footprints, GRIP4,
-Upply Seaports Database, OpenStreetMap contributors, and SoilGrids (ISRIC).
-```
-
----
-
-## 5.3 Citation of This Tool
-
-If you use this tool in your research work, please cite it as follows:
+## 6.3 Citing this tool
 
 **APA format:**
 ```
-Renoux, F. (2026). Rapid Damage Detection Tool: Post-disaster assessment using 
-Sentinel-1 SAR data on Google Earth Engine [Software]. 
+Renoux, F. (2026). Rapid Damage Detection Tool: Post-disaster assessment using
+Sentinel-1 SAR data on Google Earth Engine [Software].
 GitHub repository: https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping
 ```
 
@@ -2431,7 +1078,7 @@ GitHub repository: https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping
 ```bibtex
 @software{renoux2026rapid,
   author = {Renoux, Fabrice},
-  title = {Rapid Damage Detection Tool: Post-disaster assessment using Sentinel-1 SAR data on Google Earth Engine},
+  title = {Rapid Damage Detection Tool},
   year = {2026},
   publisher = {GitHub},
   url = {https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping},
@@ -2439,296 +1086,137 @@ GitHub repository: https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping
 }
 ```
 
----
+## 6.4 Contributions
 
-## 5.4 Contributions and Collaborative Development
+Contributions are welcome. To contribute:
+1. Fork the repository
+2. Create a branch: `git checkout -b feature/AmazingFeature`
+3. Commit: `git commit -m 'Add AmazingFeature'`
+4. Push: `git push origin feature/AmazingFeature`
+5. Open a Pull Request
 
-### 5.4.1 How to Contribute
+To report a bug or propose a feature, open an **Issue**: [https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping/issues](https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping/issues)
 
-Contributions are welcome! Here's how to participate:
+## 6.5 Contact and support
 
-**Accepted contribution types:**
-- Bug fixes
-- Algorithmic improvements
-- New feature additions
-- Documentation improvements
-- Translations
-- Use case examples
-
-**Contribution process:**
-
-1. **Fork** the repository
-2. Create a **branch** for your feature:
-```bash
-   git checkout -b feature/AmazingFeature
-```
-3. **Commit** your changes:
-```bash
-   git commit -m 'Add some AmazingFeature'
-```
-4. **Push** to the branch:
-```bash
-   git push origin feature/AmazingFeature
-```
-5. Open a **Pull Request**
-
-**Contribution rules:**
-- Respect existing code style
-- Document new features
-- Include tests if applicable
-- Update README if necessary
-
-### 5.4.2 Bug Reporting
-
-To report a bug, open an **Issue** on GitHub with:
-- **Clear description** of the problem
-- **Steps to reproduce** the bug
-- **Expected behavior** vs observed
-- **Screenshots** if relevant
-- **Configuration** (browser, operating system)
-
-### 5.4.3 Feature Requests
-
-To propose a new feature, open an **Issue** with `enhancement` label and describe:
-- The **need** or problem to solve
-- The **proposed solution**
-- **Alternatives** considered
-- **Usage context**
-
----
-
-## 5.5 Contact and Support
-
-**Author:** Fabrice Renoux  
-**Institution:** AgroParisTech - SILAT Master's Program  
+**Author:** Fabrice Renoux
+**Institution:** AgroParisTech - Mastère Spécialisé SILAT
 **Email:** renoux.fabrice@hotmail.fr
+**Response time:** 3–5 business days (academic project, support not guaranteed)
 
-**For any questions:**
-- Open an **Issue** on GitHub (recommended)
-- Email contact for confidential questions
+## 6.6 Acknowledgements
 
-**Response time:** 3-5 business days (academic project, support not guaranteed)
-
----
-
-## 5.6 Acknowledgments
-
-This project was carried out as part of the **SILAT Master's Program** (Systèmes d'Informations Localisées pour l'Aménagement des Territoires) at **AgroParisTech**.
-
-**Special thanks to:**
-- **Owen Ballinger** for developing the PWTT method and sharing source code
-- **Ben DeVries** for the s1flood algorithm and associated documentation
-- **Alexander Handwerger** and **Mong-Han Huang** for landslide detection methods
-- **Google Earth Engine Team** for the processing platform and data access
-- **ESA Copernicus** for Sentinel-1 data
-- All **open database contributors** (OpenStreetMap, Google, Microsoft, etc.)
-- **SILAT Master's teaching team** for project supervision
+**Owen Ballinger** for developing the PWTT method and sharing the source code.
+**Ben DeVries** for the s1flood algorithm and associated documentation.
+**Alexander Handwerger** and **Mong-Han Huang** for the landslide detection methods.
+**Google Earth Engine Team** for the processing platform and data access.
+**ESA Copernicus** for Sentinel-1 data.
+All **contributors to open databases** (OpenStreetMap, Google, Microsoft, etc.).
+The **SILAT Master's teaching team** for supervising the project.
 
 ---
 
-# 6. GitHub Repository Structure
+# 7. Repository Structure
+
 ```
 Rapid-Cyclone-Damage-Mapping/
 │
-├── README.md                          # This file (English version)
-├── README.fr.md                       # French version
-│
-├── LICENSE                            # MIT License
+├── README.md                           # French version (complete documentation)
+├── README.en.md                        # This file (English version)
+├── LICENSE                             # MIT Licence
 │
 ├── app/
-│   └── rapid_damage_detection.js      # JavaScript source code (Google Earth Engine)
+│   └── rapid_damage_detection.js       # JavaScript source code (Google Earth Engine)
 │
 ├── tools/
-│   ├── building_quality_comparison.py # QGIS building comparison script
-│   └── Population_building.model3     # QGIS population estimation model
+│   ├── building_quality_comparison.py  # QGIS building comparison script (standalone Python)
+│   └── Population_building.py          # QGIS population estimation script (standalone Python)
 │
 ├── docs/
-│   ├── user_guide.md                  # Detailed user guide
-│   ├── methodology.md                 # Scientific methodology
-│   ├── data_sources.md                # Data sources
-│   └── screenshots/                   # Application screenshots
-│       ├── main_interface.png
-│       ├── results_panel.png
-│       ├── damage_map.png
-│       ├── flood_map.png
-│       └── landslide_map.png
+│   ├── guide_comparaison_bati.docx     # User guide — building comparison
+│   ├── guide_population_batiment.docx  # User guide — population per building
+│   └── screenshots/                    # Application and analysis screenshots
+│       ├── Dashboard_EN.png
+│       ├── Dashboard_fr.png
+│       ├── damage_detection_PWTT_EN.png
+│       ├── damage_detection_PWTT.png
+│       ├── flood_detection_EN.png
+│       ├── flood_detection_FR.png
+│       ├── landslide_detection_EN.png
+│       ├── landslide_detection.png
+│       ├── backscatter_whitehouse_ascending_EN.png
+│       ├── backscatter_whitehouse_ascending_FR.png
+│       ├── Building_Quality_Comparison_fenetre_eng.png
+│       ├── Building_Quality_Comparison_Summary-result.png
+│       ├── Pop_building_fenetre_eng.png
+│       ├── apps_presentation_resultat_mapsosm.png
+│       ├── apss_presnetation_resultat_mapsat.png
+│       ├── apps_affichage_des_couches.png
+│       ├── resultat_carte_flood_2.png
+│       ├── bubble_et_hub_barycentre.png
+│       ├── graph_apps_Pluviometreie_serie_temporelle.png
+│       ├── graph_fllod_area_serie_temporelle.png
+│       ├── graph_repartition_etat_batis_et_route.png
+│       ├── graph_flood_land_cover.png
+│       ├── 1773509531511_image.png
+│       ├── fig1_tstat_optimisation_fenetres.png
+│       ├── fig2_ridge_distributions.png
+│       ├── fig3_comparaison_3methodes.png
+│       ├── fig_window_1j.png → fig_window_120j.png
+│       └── fig_window_14jpre2025_vs_14jpre2024.png
 │
 ├── examples/
-│   ├── jamaica_whitehouse_2025/
-│   │   ├── config.json                # Example configuration
-│   │   └── README.md                  # Example documentation
-│   └── [other_examples]/
+│   └── jamaica_whitehouse_2025/
+│       └── README.md
 │
-├── tests/
-│   ├── test_damage_detection.js       # Unit tests (Damage module)
-│   ├── test_flood_detection.js        # Unit tests (Flood module)
-│   └── test_landslide_detection.js    # Unit tests (Landslide module)
-│
-├── assets/
-│   └── logo.png                       # Project logo
-│
-├── CHANGELOG.md                       # Version history
-│
-└── CONTRIBUTING.md                    # Contribution guide
+└── CHANGELOG.md
 ```
 
 ---
 
-# 7. Installation and Deployment
+# 8. Installation and Deployment
 
-## 7.1 For Users
+## 8.1 For users
 
-**No installation required** - The application runs entirely online.
-
-**Direct access:**
+No installation required. Direct access:
 [https://rapiddamagedetection.projects.earthengine.app/view/rapid-damage-detection-app](https://rapiddamagedetection.projects.earthengine.app/view/rapid-damage-detection-app)
 
-**Prerequisites:**
-- Google account (free)
-- Modern web browser
+## 8.2 For developers
 
----
-
-## 7.2 For Developers
-
-### 7.2.1 Clone Repository
 ```bash
 git clone https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping.git
-cd Rapid-Cyclone-Damage-Mapping
+cd rapid-damage-detection
 ```
 
-### 7.2.2 Google Earth Engine Configuration
-
-1. Create GEE account: [https://earthengine.google.com/signup/](https://earthengine.google.com/signup/)
-2. Install Python API (optional):
-```bash
-   pip install earthengine-api
-```
-3. Authenticate:
-```bash
-   earthengine authenticate
-```
-
-### 7.2.3 Application Deployment
-
-**Via GEE web interface:**
-1. Open Google Earth Engine Code Editor: [https://code.earthengine.google.com/](https://code.earthengine.google.com/)
-2. Copy content of `app/rapid_damage_detection.js`
-3. Paste into editor
-4. Click **Run** to test
-5. Click **Apps** > **New App** to deploy
-
-**Via Python API:**
-```python
-import ee
-ee.Initialize()
-
-# Load script
-with open('app/rapid_damage_detection.js', 'r') as f:
-    script = f.read()
-
-# Deploy (requires appropriate permissions)
-```
-
----
----
-
-# 8. Roadmap
-
-## Version 1.0 (current)
-- ✅ Damage Detection module (PWTT)
-- ✅ Flood Detection module (s1flood)
-- ✅ Landslide Detection module (heatmaps + susceptibility)
-- ✅ Weather Statistics module
-- ✅ Client-side export (GeoJSON)
-- ✅ Google Drive export (Shapefile + GeoTIFF)
-- ✅ Time Series (flood only)
-- ✅ QGIS building comparison script
-- ✅ QGIS population estimation model
-
-## Version 1.1 (planned - Q2 2026)
-- ⬜ Optical fusion (Sentinel-2) for validation
-- ⬜ Progressive damage detection (multi-temporal tracking)
-- ⬜ Automated PDF export (maps + statistics)
-- ⬜ Multilingual interface (EN, FR, ES)
-- ⬜ User interface improvements
-
-## Version 2.0 (planned - Q4 2026)
-- ⬜ Machine learning model integration
-- ⬜ High-resolution SAR data support (ICEYE, Capella)
-- ⬜ Mobile application (field data collection)
-- ⬜ REST API for integration into other systems
-- ⬜ Real-time dashboard (continuous monitoring)
+Deploy via Google Earth Engine Code Editor: copy the contents of `app/rapid_damage_detection.js`, paste into the editor, click **Apps** > **New App**.
 
 ---
 
-# 9. FAQ (Frequently Asked Questions)
+# 9. FAQ
 
-**Q1: Can this tool be used for operational interventions?**
-
-No. This tool is **experimental** and intended for research. Results must be validated by experts before any operational use.
-
----
+**Q1: Can the tool be used for operational interventions?**
+No. This tool is experimental and intended for research. Results must be validated by experts before any operational use.
 
 **Q2: Why do my results differ between two analyses of the same area?**
+New Sentinel-1 images available, parameter changes, updated auxiliary data, variability in SAR acquisition conditions.
 
-Several factors can explain this variability:
-- New Sentinel-1 images available (recent acquisitions)
-- Modified parameters (thresholds, intervals)
-- Updated auxiliary data (WorldPop, WorldCover)
-- Variability in SAR acquisition conditions (soil moisture, wind)
+**Q3: Can I use the tool for other types of disasters?**
+The Damage Detection module can detect SAR changes for forest fires. For droughts, Sentinel-1 alone is insufficient.
 
----
-
-**Q3: Can I use the tool for other disaster types (wildfires, droughts)?**
-
-The **Damage Detection** module can detect SAR changes for wildfires (debris, ash). For droughts, Sentinel-1 alone is insufficient (prefer optical indices like NDVI).
-
----
-
-**Q4: How long should I wait after an event to run the analysis?**
-
-**Ideally: 3-7 days** after the event to:
-- Ensure at least one post-event Sentinel-1 acquisition
-- Allow stabilization of ground conditions (water evacuation, debris)
-
----
+**Q4: How long should I wait after an event?**
+Ideally 3–7 days to guarantee at least one post-event Sentinel-1 acquisition. A D+1 analysis is possible and useful for rapid triage (see section 3.3).
 
 **Q5: Does the tool work in polar or desert areas?**
+Polar areas: DEMs limited to 60°N–56°S. Desert areas: yes, but sand changes can generate false positives.
 
-**Polar areas:** Sentinel-1 data available, but DEMs (NASADEM, SRTM) are limited to 60°N-56°S.  
-**Desert areas:** Yes, but sand changes (dunes) can generate false positives.
+**Q6: Can I use my own building/road data?**
+Yes. Use the "Custom asset" option on Google Earth Engine. Format: FeatureCollection (polygons for buildings, lines for roads).
 
----
+**Q7: Is data stored anywhere?**
+No. The application stores no user data. Google Drive exports are stored in the user's personal Drive.
 
-**Q6: Can I export results in formats other than GeoJSON/Shapefile?**
-
-Currently: GeoJSON (client-side) and Shapefile (Google Drive).  
-**Alternatives:** Convert files in QGIS (Layer > Export > Save As...) to KML, GeoPackage, CSV, etc.
-
----
-
-**Q7: Is data stored somewhere? Are there privacy concerns?**
-
-**No.** The application stores no user data. All analyses are performed server-side (Google Earth Engine) and results are only accessible by the connected user. Google Drive exports are stored in the user's personal Drive.
-
----
-
-**Q8: Can the tool analyze very large areas (entire country)?**
-
-**No.** Google Earth Engine imposes computation limits. For areas > 100 km², calculation time can exceed 30 minutes and analysis may fail. **Solution:** Divide area into multiple sub-areas.
-
----
-
-**Q9: How do I report a bug or suggest an improvement?**
-
-Open an **Issue** on GitHub: [https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping/issues](https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping/issues)
-
----
-
-**Q10: Can I use my own building/road data instead of global databases?**
-
-**Yes.** Use the "Custom asset" option and upload your data to Google Earth Engine. Required format: FeatureCollection (polygons for buildings, lines for roads).
+**Q8: Can the tool analyse very large areas?**
+For areas > 100 km², computation may take over 30 minutes and fail. Solution: divide into multiple sub-areas.
 
 ---
 
@@ -2736,669 +1224,38 @@ Open an **Issue** on GitHub: [https://github.com/renouxfabrice/Rapid-Cyclone-Dam
 
 | Term | Definition |
 |------|-----------|
-| **AOI** | Area of Interest - Study area defined by user |
-| **CHIRPS** | Climate Hazards Group InfraRed Precipitation with Station data - Precipitation data |
-| **DEM** | Digital Elevation Model - Terrain elevation model |
-| **GEE** | Google Earth Engine - Geospatial processing platform |
-| **GLDAS** | Global Land Data Assimilation System - Global meteorological data |
-| **GRD** | Ground Range Detected - Sentinel-1 Level-1 product |
-| **IW** | Interferometric Wide swath - Sentinel-1 acquisition mode |
-| **JRC** | Joint Research Centre - European Commission research center |
-| **MAD** | Median Absolute Deviation - Robust statistical dispersion measure |
+| **AOI** | Area of Interest — Study area defined by the user |
+| **AUC** | Area Under the Curve — Area under the ROC curve, discriminative performance measure (0.5 = random, 1 = perfect) |
+| **CHIRPS** | Climate Hazards Group InfraRed Precipitation with Station data |
+| **DEM** | Digital Elevation Model |
+| **GEE** | Google Earth Engine — Geospatial processing platform |
+| **GLDAS** | Global Land Data Assimilation System — Global meteorological data |
+| **GRD** | Ground Range Detected — Sentinel-1 Level-1 product |
+| **IW** | Interferometric Wide swath — Sentinel-1 acquisition mode |
+| **JRC** | Joint Research Centre — European Commission research centre |
+| **Kappa (κ)** | Cohen's Kappa coefficient — agreement beyond chance (0 = random, 1 = perfect) |
+| **MAD** | Median Absolute Deviation — Robust measure of statistical dispersion |
 | **NASADEM** | Global DEM reprocessed by NASA from SRTM |
-| **PWTT** | Pixel-Wise T-Test - T-test applied pixel by pixel |
-| **SAR** | Synthetic Aperture Radar - Synthetic aperture radar |
-| **SRTM** | Shuttle Radar Topography Mission - Radar topography mission |
-| **VH/VV** | Radar polarizations (Vertical-Horizontal / Vertical-Vertical) |
-| **WorldCover** | ESA 10m land cover map |
-| **WorldPop** | Disaggregated population data |
-| **z-score** | Normalized deviation - (value - mean) / standard deviation |
+| **PWTT** | Pixel-Wise T-Test — T-test applied pixel by pixel |
+| **ROC** | Receiver Operating Characteristic — Curve representing classifier performance |
+| **SAR** | Synthetic Aperture Radar |
+| **SRTM** | Shuttle Radar Topography Mission |
+| **T-statistic** | Radar change score normalised by PRE variability |
+| **VH/VV** | Radar polarisations (Vertical-Horizontal / Vertical-Vertical) |
+| **WorldCover** | ESA land cover map at 10m resolution |
+| **WorldPop** | Disaggregated population data at 100m |
+| **z-score** | Normalised deviation — (value − mean) / standard deviation |
 
 ---
 
-# 11. Troubleshooting Guide
+**END OF README**
 
-## Common Issues and Solutions
-
-### Issue 1: "Memory limit exceeded" error
-
-**Symptom:** Analysis fails with memory error message
-
-**Causes:**
-- AOI too large (> 100 km²)
-- Too many buildings/roads in area
-- Time series with many dates
-
-**Solutions:**
-1. Reduce AOI size
-2. Divide area into smaller sub-regions
-3. Reduce time series date range
-4. Disable unnecessary modules
+For any questions: renoux.fabrice@hotmail.fr
+Online application: [https://rapiddamagedetection.projects.earthengine.app/view/rapid-damage-detection-app](https://rapiddamagedetection.projects.earthengine.app/view/rapid-damage-detection-app)
+GitHub repository: [https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping](https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping)
 
 ---
 
-### Issue 2: No results displayed
+© 2026 Fabrice Renoux - AgroParisTech SILAT - MIT Licence
 
-**Symptom:** Analysis completes but no layers appear
-
-**Causes:**
-- No Sentinel-1 images found
-- Threshold too high (no damage detected)
-- Data source unavailable
-
-**Solutions:**
-1. Check pre/post intervals - increase if needed
-2. Lower T-threshold to 2.0
-3. Verify internet connection
-4. Check GEE service status
-
----
-
-### Issue 3: Exports fail
-
-**Symptom:** Google Drive export tasks show errors
-
-**Causes:**
-- Insufficient Drive storage
-- GEE quota exceeded
-- Asset too large
-
-**Solutions:**
-1. Free up Google Drive space
-2. Wait 24 hours (quota resets)
-3. Use client-side export for smaller datasets
-4. Reduce AOI size
-
----
-
-### Issue 4: Results seem incorrect
-
-**Symptom:** Damage/flood detected in unexpected locations
-
-**Causes:**
-- Wet baseline (pre-event rain)
-- Agricultural changes (harvesting, plowing)
-- Urban development
-- Sensor artifacts
-
-**Solutions:**
-1. Move Pre-date earlier (avoid recent rain)
-2. Verify with Google Earth imagery
-3. Increase T-threshold
-4. Cross-validate with optical imagery
-
----
-
-### Issue 5: Population estimates unrealistic
-
-**Symptom:** Population numbers too high/low
-
-**Causes:**
-- Non-residential buildings included
-- Wrong WorldPop region
-- Missing building height data
-
-**Solutions:**
-1. Filter by building type if available
-2. Verify area corresponds to residential zones
-3. Download WSF3D height data
-4. Apply ±40% uncertainty margin
-
----
-
-## Performance Optimization Tips
-
-### For Large Areas
-
-1. **Divide and conquer:**
-   - Split into 20-30 km² tiles
-   - Process separately
-   - Merge results in QGIS
-
-2. **Selective module activation:**
-   - Run Damage only first
-   - Then Flood separately
-   - Combine results afterward
-
-3. **Use custom assets:**
-   - Pre-filter buildings to residential only
-   - Clip roads to main arteries
-   - Upload to GEE
-
-### For Slow Internet
-
-1. **Reduce data transfer:**
-   - Use Google Drive export (server-side)
-   - Download during off-peak hours
-   - Use compressed formats
-
-2. **Optimize analysis:**
-   - Minimize time series dates
-   - Use coarser DEM (SRTM instead of NASADEM)
-   - Disable density bubbles
-
----
-
-# 12. Best Practices
-
-## Pre-Analysis Checklist
-
-- [ ] Verify event date accuracy
-- [ ] Check Sentinel-1 availability for area
-- [ ] Assess cloud-free optical imagery availability
-- [ ] Identify appropriate building/road sources
-- [ ] Define realistic AOI size (< 50 km²)
-- [ ] Determine priority modules to run
-
-## During Analysis
-
-- [ ] Monitor progress bar
-- [ ] Note any warning messages
-- [ ] Check intermediate results in Layers panel
-- [ ] Verify statistics seem reasonable
-- [ ] Screenshot key findings
-
-## Post-Analysis
-
-- [ ] Export all relevant layers
-- [ ] Document parameter settings used
-- [ ] Cross-validate with optical imagery
-- [ ] Calculate population estimates if needed
-- [ ] Prepare summary report
-
-## Validation Workflow
-
-1. **Rapid assessment** (this tool)
-   - Identify potential damage zones
-   - Calculate approximate statistics
-   - Generate priority maps
-
-2. **Photo-interpretation** (HR imagery)
-   - Validate damage locations
-   - Assess damage severity
-   - Identify false positives/negatives
-
-3. **Field verification** (on-ground)
-   - Visit high-priority areas
-   - Collect ground truth data
-   - Refine population estimates
-
-4. **Report generation**
-   - Combine all sources
-   - Communicate uncertainties
-   - Provide actionable recommendations
-
----
-
-# 13. Use Cases and Examples
-
-## Case Study 1: Post-Hurricane Assessment
-
-**Scenario:** Category 4 hurricane made landfall on coastal city
-
-**Workflow:**
-1. Define AOI around affected city (30 km²)
-2. Set Event-date = landfall date
-3. Set Pre-date = 2 months before
-4. Activate: Weather + Damage + Flood
-5. Use Time Series for flood evolution
-6. Export results within 10 minutes
-7. Generate priority map for field teams
-
-**Key outputs:**
-- Damaged buildings: 2,847 (23%)
-- Flooded area: 12.3 km²
-- Affected population: ~18,500
-- Prioritized zones for immediate response
-
----
-
-## Case Study 2: Earthquake Damage Mapping
-
-**Scenario:** Magnitude 7.2 earthquake in mountainous region
-
-**Workflow:**
-1. Define AOI around epicenter (40 km²)
-2. Set Event-date = earthquake date
-3. Set Pre-date = 1 month before
-4. Activate: Damage + Landslide
-5. Increase T-threshold to 3.0 (reduce noise)
-6. Use custom building asset (local cadastre)
-7. Cross-validate with seismic intensity map
-
-**Key outputs:**
-- Very high damage: 342 buildings
-- Landslide zones: 8.7 km²
-- Roads at risk: 23 km
-- Logistic hub identified near heliport
-
----
-
-## Case Study 3: Flood Monitoring
-
-**Scenario:** Monsoon flooding over 2-week period
-
-**Workflow:**
-1. Define AOI along river basin (60 km²)
-2. Enable Time Series mode
-3. Set range = flood start to 2 weeks after
-4. Activate: Flood + Weather only
-5. Generate evolution graph
-6. Identify peak flood extent
-7. Track recession rate
-
-**Key outputs:**
-- Peak flood: 18.2 km² (Day 5)
-- Recession: -2.1 km²/day
-- Flooded infrastructure: 4 health facilities
-- Estimated timeline to dry: 8 days
-
----
-
-# 14. Known Limitations and Future Work
-
-## Current Limitations
-
-### Technical Constraints
-
-1. **Spatial resolution:** 10m (Sentinel-1) insufficient for individual small buildings
-2. **Temporal resolution:** 6-day revisit may miss short-duration events
-3. **Computation limits:** Large areas (> 100 km²) require subdivision
-4. **Export limits:** 5000 features max for client-side export
-
-### Methodological Constraints
-
-1. **SAR ambiguities:** Cannot distinguish damage types (collapse vs fire vs flood)
-2. **Vegetation masking:** Dense canopy hides underlying damage/flooding
-3. **Urban complexity:** Multi-story buildings, underground structures not detected
-4. **Empirical thresholds:** T-threshold, susceptibility weights not universally optimal
-
-### Data Constraints
-
-1. **Building databases:** Variable quality, outdated in rapidly developing areas
-2. **DEM accuracy:** 30m insufficient for micro-topography landslides
-3. **Population data:** Statistical estimates, not census-based counts
-4. **Weather data:** Coarse resolution misses localized phenomena
-
-## Planned Improvements
-
-### Short-term (2026)
-
-- [ ] Integrate Sentinel-2 for damage type classification
-- [ ] Add uncertainty quantification to all outputs
-- [ ] Implement automated quality control checks
-- [ ] Create standardized validation dataset
-- [ ] Develop batch processing for multiple events
-
-### Medium-term (2027)
-
-- [ ] Machine learning damage classifier
-- [ ] High-resolution SAR integration (ICEYE, Capella)
-- [ ] Mobile field validation app
-- [ ] Multi-language support
-- [ ] Automated report generation
-
-### Long-term (2028+)
-
-- [ ] Near-real-time monitoring system
-- [ ] Integration with UN/humanitarian dashboards
-- [ ] Crowdsourced validation platform
-- [ ] 3D damage visualization
-- [ ] Climate scenario modeling
-
----
-
-# 15. Contributing to the Project
-
-## Ways to Contribute
-
-### For Researchers
-
-- **Validate results** in your study areas
-- **Compare** with ground truth data
-- **Publish** case studies using the tool
-- **Share** parameter optimization findings
-- **Propose** methodological improvements
-
-### For Developers
-
-- **Optimize** code performance
-- **Add** new features
-- **Write** unit tests
-- **Improve** documentation
-- **Translate** interface
-
-### For Data Providers
-
-- **Share** high-quality building datasets
-- **Provide** validation imagery
-- **Contribute** local DEM data
-- **Add** regional infrastructure databases
-
-### For End Users
-
-- **Report** bugs and issues
-- **Suggest** interface improvements
-- **Share** use cases
-- **Provide** feedback on accuracy
-- **Recommend** features
-
-## Contribution Guidelines
-
-### Code Contributions
-
-1. Follow Google JavaScript Style Guide
-2. Comment complex algorithms
-3. Test on multiple browsers
-4. Document parameter changes
-5. Update README if needed
-
-### Documentation Contributions
-
-1. Use clear, concise language
-2. Provide examples
-3. Include screenshots
-4. Translate accurately
-5. Maintain consistent formatting
-
-### Data Contributions
-
-1. Ensure proper licensing
-2. Provide metadata
-3. Document quality assessment
-4. Share processing scripts
-5. Attribute sources correctly
-
----
-
-# 16. Support and Community
-
-## Getting Help
-
-### Official Resources
-
-- **GitHub Issues:** [https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping/issues](https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping/issues)
-- **Documentation:** This README (English/French)
-- **Email:** renoux.fabrice@hotmail.fr
-
-### Response Times
-
-- **Bug reports:** 3-7 days
-- **Feature requests:** Review monthly
-- **General questions:** Best effort basis
-
-**Note:** This is an academic project with limited support resources.
-
-## Community Guidelines
-
-### Be Respectful
-
-- Professional communication
-- Constructive criticism
-- Acknowledge contributions
-- Help newcomers
-
-### Share Knowledge
-
-- Document solutions
-- Create tutorials
-- Answer questions
-- Contribute examples
-
-### Give Credit
-
-- Cite this tool in publications
-- Acknowledge data sources
-- Credit contributors
-- Respect licenses
-
----
-
-# 17. Legal and Ethical Considerations
-
-## Disclaimer of Liability
-
-This tool is provided "as is" without warranty. The author and AgroParisTech:
-
-- Make no guarantees of accuracy
-- Are not liable for decisions based on results
-- Do not endorse operational use without validation
-- Disclaim responsibility for data quality
-- Are not responsible for third-party data licenses
-
-## Ethical Use Guidelines
-
-### DO:
-- ✅ Use for research and education
-- ✅ Validate results before decisions
-- ✅ Communicate uncertainties clearly
-- ✅ Attribute data sources properly
-- ✅ Respect privacy and sovereignty
-
-### DO NOT:
-- ❌ Use as sole basis for life-safety decisions
-- ❌ Claim results are ground truth
-- ❌ Ignore validation requirements
-- ❌ Violate data licenses
-- ❌ Use for military targeting
-
-## Data Privacy
-
-- No personal data collected
-- No user tracking
-- No data sharing with third parties
-- Google Drive exports = user's private storage
-- Analysis results = user's exclusive access
-
-## Academic Integrity
-
-If using this tool for academic work:
-
-1. **Cite properly** (see Citation section)
-2. **Acknowledge limitations** in methodology
-3. **Document** all parameters used
-4. **Share** code/data when possible
-5. **Validate** results independently
-
----
-
-# 18. Version History
-
-## Version 1.0.0 (March 2026)
-
-**Initial release**
-
-### Features
-- Damage detection (PWTT algorithm)
-- Flood detection (s1flood algorithm)
-- Landslide susceptibility mapping
-- Weather statistics module
-- Time series flood analysis
-- Client-side GeoJSON export
-- Google Drive export (Shapefile + GeoTIFF)
-- QGIS building comparison script
-- QGIS population estimation model
-- English and French documentation
-
-### Known Issues
-- Large areas (> 100 km²) may timeout
-- Client-side export limited to 5000 features
-- No batch processing capability
-- Manual parameter tuning required
-
-### Credits
-- Damage detection: Based on Ballinger (2024)
-- Flood detection: Based on DeVries et al. (2020)
-- Landslide detection: Based on Handwerger et al. (2022)
-- Building comparison: Inspired by Gonzales (2023)
-
----
-
-# 19. Related Projects and Resources
-
-## Similar Tools
-
-### Global
-- **UNOSAT Rapid Mapping:** [https://unitar.org/maps](https://unitar.org/maps)
-- **Copernicus EMS:** [https://emergency.copernicus.eu/](https://emergency.copernicus.eu/)
-- **NASA ARIA Damage Proxy Maps:** [https://aria.jpl.nasa.gov/](https://aria.jpl.nasa.gov/)
-
-### SAR-based
-- **Sentinel-1 Toolbox (SNAP):** [https://step.esa.int/main/toolboxes/snap/](https://step.esa.int/main/toolboxes/snap/)
-- **PyRAT (Python Radar Tools):** [https://github.com/birgander2/PyRAT](https://github.com/birgander2/PyRAT)
-
-### Flood-specific
-- **Global Flood Database:** [https://global-flood-database.cloudtostreet.ai/](https://global-flood-database.cloudtostreet.ai/)
-- **FloodMapper:** [https://github.com/cloudtostreet/floodmapper](https://github.com/cloudtostreet/floodmapper)
-
-## Educational Resources
-
-### SAR Remote Sensing
-- **ESA SAR Training:** [https://eo-college.org/](https://eo-college.org/)
-- **NASA ARSET:** [https://appliedsciences.nasa.gov/what-we-do/capacity-building/arset](https://appliedsciences.nasa.gov/what-we-do/capacity-building/arset)
-
-### Google Earth Engine
-- **GEE Tutorials:** [https://developers.google.com/earth-engine/tutorials](https://developers.google.com/earth-engine/tutorials)
-- **Earth Engine Community:** [https://developers.google.com/earth-engine/tutorials/community/explore](https://developers.google.com/earth-engine/tutorials/community/explore)
-
-### Disaster Response
-- **MapAction:** [https://mapaction.org/](https://mapaction.org/)
-- **HOT (Humanitarian OpenStreetMap Team):** [https://www.hotosm.org/](https://www.hotosm.org/)
-
----
-
-# 20. Conclusion
-
-## Summary
-
-The Rapid Damage Detection Tool provides:
-
-1. **Fast assessment** of disaster impacts using Sentinel-1 SAR
-2. **Multi-hazard approach** (damage, floods, landslides)
-3. **Open-source** implementation on Google Earth Engine
-4. **Complementary tools** for quality assessment and population estimation
-5. **Comprehensive documentation** for users and developers
-
-## Target Audience
-
-- **Emergency responders** for initial assessment
-- **Humanitarian organizations** for resource allocation
-- **Researchers** for methodological validation
-- **Students** for disaster mapping education
-- **Civil protection agencies** for rapid reconnaissance
-
-## Key Strengths
-
-- ✅ No installation required
-- ✅ All-weather SAR data (cloud-independent)
-- ✅ Rapid processing (5-15 minutes)
-- ✅ Free and open-source
-- ✅ Complementary validation tools
-
-## Key Limitations
-
-- ⚠️ Experimental tool (not operational)
-- ⚠️ Requires expert validation
-- ⚠️ Limited spatial resolution (10m)
-- ⚠️ Area size constraints (< 100 km²)
-- ⚠️ Statistical estimates (not census data)
-
-## Future Vision
-
-This tool represents a **first step** toward rapid, accessible disaster assessment. Future development will focus on:
-
-- Enhanced accuracy through machine learning
-- Integration with operational systems
-- Real-time monitoring capabilities
-- Community-validated datasets
-- Multi-platform deployment
-
-## Final Words
-
-**Remember:** This tool provides a **framework for prioritization**, not definitive damage assessment. Always validate results through:
-
-1. High-resolution imagery analysis
-2. Field verification
-3. Expert interpretation
-4. Local knowledge integration
-
-**Use responsibly. Validate thoroughly. Save lives.**
-
----
-
-# 21. Quick Reference
-
-## Essential Links
-
-| Resource | URL |
-|----------|-----|
-| **Application** | [https://rapiddamagedetection.projects.earthengine.app/view/rapid-damage-detection-app](https://rapiddamagedetection.projects.earthengine.app/view/rapid-damage-detection-app) |
-| **GitHub Repository** | [https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping](https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping) |
-| **French Documentation** | [README.fr.md](README.fr.md) |
-| **Report Issues** | [GitHub Issues](https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping/issues) |
-| **Contact** | renoux.fabrice@hotmail.fr |
-
-## Default Parameters
-
-| Parameter | Default Value | Range | Purpose |
-|-----------|---------------|-------|---------|
-| Pre-interval | 180 days | 30-365 | Baseline image search window |
-| Post-interval | 6 days | 1-28 | Post-event image search window |
-| T-threshold | 2.4 | 2.0-5.0 | Damage detection sensitivity |
-| Min slope (landslide) | 10° | 5-30° | Landslide slope threshold |
-| Min curvature | 0.05 | 0.01-0.2 | Landslide curvature threshold |
-| Max flood slope | 5° | 1-10° | Flood exclusion slope |
-
-## File Naming Conventions
-
-### Exports
-```
-RapidDamage_[ZONE_NAME]_[EVENT_DATE]/
-├── Analysis_Summary.csv
-├── Buildings_Damage.geojson / .shp
-├── Roads_Damage.geojson / .shp
-├── T_Statistic_Raster.tif
-├── Flood_Extent.tif
-└── Landslide_Susceptibility.tif
-```
-
-### Assets
-```
-projects/YOUR_PROJECT/assets/
-├── aoi_[area_name]
-├── buildings_[source]_[area]
-└── roads_[source]_[area]
-```
-
----
-
----
-
-© 2026 Fabrice Renoux - AgroParisTech SILAT Master's Program - MIT License
-
-**For questions:** renoux.fabrice@hotmail.fr  
-**Application:** [https://rapiddamagedetection.projects.earthengine.app/view/rapid-damage-detection-app](https://rapiddamagedetection.projects.earthengine.app/view/rapid-damage-detection-app)  
-**Repository:** [https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping](https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping)
-
----
-
-**Acknowledgments**
-
-This project builds upon the foundational work of Owen Ballinger (PWTT), Ben DeVries (s1flood), Alexander Handwerger (landslide heatmaps), and numerous open data contributors. Special thanks to the Google Earth Engine team, ESA Copernicus program, and the AgroParisTech SILAT teaching staff.
-
-**Citation**
-
-If you use this tool, please cite:
-```
-Renoux, F. (2026). Rapid Damage Detection Tool: Post-disaster assessment 
-using Sentinel-1 SAR data on Google Earth Engine. GitHub repository: 
-https://github.com/renouxfabrice/Rapid-Cyclone-Damage-Mapping
-```
-
-**Disclaimer**
-
-This is an experimental academic tool. Results must be validated by experts before operational use. The author and AgroParisTech are not liable for decisions made based on this tool's outputs.
-
----
-
-**Made with dedication for disaster response and humanitarian action**
+Made with dedication for disaster response and humanitarian action
