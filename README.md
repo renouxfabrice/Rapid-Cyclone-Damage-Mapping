@@ -477,7 +477,7 @@ La série temporelle du signal de rétrodiffusion VV (dB) montre un régime stab
 
 ### 2.2.2 Flux de traitement — méthode PWTT
 
-![Schéma du flux de traitement — Détection de dommages structurels (PWTT)](docs/screenshots/damage_detection_PWTT.png)
+![Schéma du flux de traitement — Détection de dommages structurels (PWTT)](docs/screenshots/damage_detection_FR.png)
 
 La détection des dégâts repose sur la méthode **Pixel-Wise T-Test (PWTT)** développée par Ballinger (2024). L'ensemble du flux est décrit dans le schéma ci-dessus et détaillé ci-après.
 
