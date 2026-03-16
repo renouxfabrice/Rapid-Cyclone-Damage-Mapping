@@ -46,7 +46,7 @@ L'exemple du Cyclone Idai (Beira, Mozambique, mars 2019) illustre bien cette con
 
 Le cas de Whitehouse, Jamaïque (Cyclone Melissa, 28-29 octobre 2025) confirme ce constat sur un exemple récent. Le tableau suivant récapitule les dates clés d'acquisition et de publication des produits d'évaluation :
 
-![Timeline acquisitions — Whitehouse FR](docs/screenshots/timeline_whitehouse_FR_transparent.png)
+![Timeline acquisitions — Whitehouse FR](docs/screenshots/timeline_whitehouse_FR.png)
 
 On constate que des données Sentinel-1 étaient disponibles dès le 29 octobre 2025 (jour de l'impact), permettant une pré-analyse immédiate avec cet outil. L'évaluation UNOSAT n'a été publiée que le 5 novembre — soit 7 jours plus tard, pendant lesquels 3 acquisitions Sentinel-1 supplémentaires étaient déjà disponibles. L'imagerie satellitaire optique à 50 cm (Maxar/Copernicus EMS) n'a quant à elle été accessible que le 18 novembre, soit 20 jours après l'impact, au moment où 5 images Sentinel-1 couvraient déjà la zone.
 
